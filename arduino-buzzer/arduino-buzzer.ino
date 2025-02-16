@@ -84,7 +84,7 @@ public:
     for (int i = 0; i < totalBuzzers_; ++i) {
       buzzers_[i].logSensorValue(samples);
     }
-    Serial.print("\n");
+    Serial.println();
   }
 
   // This will print all buzzers that got pressed in the same sample (e.g. 1;4;5)
@@ -149,6 +149,7 @@ String serialModeToString(const SerialMode& mode) {
 
 BuzzerSet bs = BuzzerSet(1, 700);
 SerialMode serialMode = SerialMode::LOG_TOUCH;
+// SerialMode serialMode = SerialMode::LOG_SENSOR;
 int samples = 30;
 
 const int MAX_INPUT_BUFFER = 64;
