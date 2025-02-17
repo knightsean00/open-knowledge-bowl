@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import BuzzerPage from './BuzzerPage';
 import AdminPage from './AdminPage';
+import { input } from 'motion/react-client';
 
 export enum ArduinoMode {
   LOG_TOUCH,
@@ -9,13 +10,147 @@ export enum ArduinoMode {
   UNKNOWN
 }
 
+const teamNumberToName = (teamIndex: number) => {
+  return `Team ${teamIndex + 1}`;
+}
+
 // Main App that renders the correct page based on the mode (taken from serial)
 //    TouchSensor Page
 //    SensorValues Page (dev page, can also send commands here)
 
+const encoder = new TextEncoder();
+
 function App() {
   const [teamQueue, setTeamQueue] = useState<string[]>([]);
   const [arduinoMode, setArduinoMode] = useState<ArduinoMode>(ArduinoMode.LOG_TOUCH);
+
+  const [port, setPort] = useState(null);
+  const [reader, setReader] = useState(null);
+  const [writer, setWriter] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
+
+  const connectToSerial = async () => {
+    try {
+      await navigator.serial.requestPort();
+      const ports = await navigator.serial.getPorts();
+      if (ports.length != 1) {
+        alert("Could not find port to read");
+        return;
+      }
+      const port = ports[0]
+      await port.open({ baudRate: 9600 }); // Or your baud rate
+      setPort(port);
+      setIsConnected(true);
+
+      const reader = port.readable.getReader();
+      setReader(reader);
+      const writer = port.writable.getWriter();
+      setWriter(writer);
+
+      // Start reading loop
+      readLoop(reader);
+
+    } catch (error) {
+      console.error("Error opening serial port:", error);
+    }
+  };
+
+  const handleSerialRead = (inputString: string) => {
+    if (inputString.startsWith("MODE:")) {
+      switch (inputString) {
+        case "MODE:LOG_TOUCH":
+          setArduinoMode(ArduinoMode.LOG_TOUCH);
+          break;
+        case "MODE:LOG_SENSOR":
+          setArduinoMode(ArduinoMode.LOG_SENSOR);
+          break;
+        default:
+          setArduinoMode(ArduinoMode.UNKNOWN);
+          break;
+      }
+    }
+    // This else if does not work due to staleness, must use a derived state variable or something
+    else if (arduinoMode === ArduinoMode.LOG_TOUCH) {
+      const buzzedTeams = inputString.split(";")
+      console.log(buzzedTeams);
+      for (const team of buzzedTeams) {
+        if (team.length > 0) {
+          const teamName = teamNumberToName(parseInt(team));
+          setTeamQueue((oldQueue) => {
+            if (oldQueue.includes(teamName)) {
+              return oldQueue;
+            }
+            return [...oldQueue, teamName];
+          });
+        }
+      }
+    }
+  }
+
+  const readLoop = async (reader) => {
+    let partialMessage = "";
+    const terminator = "\n"
+    try {
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+          // Reader is done
+          break;
+        }
+
+        const decoder = new TextDecoder(); // Decode the Uint8Array to text
+        const chunk = decoder.decode(value);
+        partialMessage += chunk;
+
+        let terminatorIndex;
+        while ((terminatorIndex = partialMessage.indexOf(terminator)) !== -1) {
+          const completeMessage = partialMessage.substring(0, terminatorIndex);
+          // console.log(completeMessage);
+          handleSerialRead(completeMessage.trim());
+
+          partialMessage = partialMessage.substring(terminatorIndex + terminator.length);
+        }
+      }
+    } catch (error) {
+      console.error("Error reading from serial port:", error);
+    } finally {
+      if (reader) {
+        reader.releaseLock(); // Release the lock when done
+      }
+      if (port) {
+        await port.close(); // Close the port
+        setPort(null);
+        setIsConnected(false);
+      }
+    }
+  };
+
+  const disconnectFromSerial = async () => {
+    if (reader) {
+      await reader.cancel();  // Stop the reader
+    }
+
+    if (writer) {
+      await writer.cancel();
+    }
+
+    if (port) {
+      await port.close();
+      setPort(null);
+      setIsConnected(false);
+    }
+  };
+
+
+  useEffect(() => {
+    // Clean up on unmount (important!)
+    return () => {
+      if (port) {
+        disconnectFromSerial();
+      }
+    };
+  }, [port, reader, writer]);
+
 
   useEffect(() => {
     const handleGlobalKeyDown = (event: { key: string; }) => {
@@ -34,14 +169,21 @@ function App() {
     };
   }, []);
 
-  // console.log(teamQueue);
-
+  if (!isConnected) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", height: "95vh" }}>
+        <div style={{ flex: 1 }} className="row">
+          <button onClick={connectToSerial}>Connect to Serial</button>
+        </div>
+      </div>
+    )
+  }
 
   switch (arduinoMode) {
     case ArduinoMode.LOG_TOUCH:
       return (<BuzzerPage teamQueue={teamQueue} setArduinoMode={setArduinoMode} />);
     case ArduinoMode.LOG_SENSOR:
-      return (<AdminPage setArduinoMode={setArduinoMode}/>);
+      return (<AdminPage setArduinoMode={setArduinoMode} />);
     default:
       return (<h1>WARNING: ARDUINO IN UNKNOWN MODE</h1>)
   }

@@ -54,6 +54,11 @@ public:
     touchThreshold_ = newThreshold;
   }
 
+  long getTouchThreshold() const
+  {
+    return touchThreshold_;
+  }
+
 private:
   int sendPin_;
   int receivePin_;
@@ -106,9 +111,20 @@ public:
   void setTouchThreshold(int buzzerIndex, long touchThreshold)
   {
     if (buzzerIndex < 0 && buzzerIndex >= totalBuzzers_) {
-      Serial.println("ERROR: Attempted to set bad touch threshold for bad buzzer index");
+      Serial.println("ERROR:Attempted to set bad touch threshold for bad buzzer index");
     } else {
       buzzers_[buzzerIndex].setTouchThreshold(touchThreshold);
+      Serial.print("THRESHOLD:");
+      Serial.print(buzzerIndex);
+      Serial.print(",");
+      Serial.print(buzzers_[buzzerIndex].getTouchThreshold());
+    }
+  }
+
+  void setTouchThreshold(long touchThreshold)
+  {
+    for (int i = 0; i < totalBuzzers_; ++i) {
+      setTouchThreshold(i, touchThreshold);
     }
   }
 
@@ -128,26 +144,27 @@ enum SerialMode {
 };
 
 SerialMode stringToSerialMode(const String& str) {
-  if (str == "MODE: LOG_TOUCH") {
+  if (str == "MODE:LOG_TOUCH") {
     return SerialMode::LOG_TOUCH;
   }
-  if (str == "MODE: LOG_SENSOR") {
+  if (str == "MODE:LOG_SENSOR") {
     return SerialMode::LOG_SENSOR;
   }
+  return SerialMode::UNKNOWN;
 }
 
 String serialModeToString(const SerialMode& mode) {
   switch (mode) {
     case SerialMode::LOG_TOUCH:
-      return "MODE: LOG_TOUCH";
+      return "MODE:LOG_TOUCH";
     case SerialMode::LOG_SENSOR:
-      return "MODE: LOG_SENSOR";
+      return "MODE:LOG_SENSOR";
     default:
-      return "ERROR: Touch sensor in unknown mode";
+      return "MODE:UNKNOWN_MODE";
   }
 }
 
-BuzzerSet bs = BuzzerSet(1, 700);
+BuzzerSet bs = BuzzerSet(1, 800);
 SerialMode serialMode = SerialMode::LOG_TOUCH;
 // SerialMode serialMode = SerialMode::LOG_SENSOR;
 int samples = 30;
@@ -176,8 +193,13 @@ void loop() {
       String inputString = String(inputBuffer);
 
       if (inputString.startsWith("MODE:")) {
-        serialMode = stringToSerialMode(inputString);
-        Serial.println(serialModeToString(serialMode));
+        SerialMode newMode = stringToSerialMode(inputString);
+        if (newMode != SerialMode::UNKNOWN){
+          serialMode = newMode;
+          Serial.println(serialModeToString(serialMode)); // Confirm change
+        }
+      } else if (inputString.startsWith("THRESHOLD:")) {
+        Serial.println("Threshold command not implemented");
       }
       inputIndex = 0; // Reset for the next input
     }
