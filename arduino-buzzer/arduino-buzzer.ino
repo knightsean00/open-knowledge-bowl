@@ -1,5 +1,10 @@
 #include <CapacitiveSensor.h>
 
+// First available pin
+const int pinOffset = 2;
+const int MAX_PIN = 13;
+
+
 enum BuzzerState {
   RELEASED,
   TOUCHED
@@ -67,9 +72,6 @@ private:
 
   BuzzerState state_ = BuzzerState::RELEASED;
 };
-
-// First available pin
-const int pinOffset = 2;
 
 class BuzzerSet
 {
@@ -164,7 +166,9 @@ String serialModeToString(const SerialMode& mode) {
   }
 }
 
-BuzzerSet bs = BuzzerSet(1, 800);
+int numberOfBuzzers = 1;
+long touchThreshold = 800;
+BuzzerSet bs = BuzzerSet(numberOfBuzzers > 0 ? numberOfBuzzers : 1, touchThreshold);
 SerialMode serialMode = SerialMode::LOG_TOUCH;
 // SerialMode serialMode = SerialMode::LOG_SENSOR;
 int samples = 30;
@@ -177,6 +181,20 @@ int inputIndex = 0; // Current index in the buffer
 void setup() {
   Serial.begin(9600);
   Serial.println(serialModeToString(serialMode));
+
+  // TODO: Fix this code, for some reason we cannot switch to LOG_SENSOR (just -2)
+  if (numberOfBuzzers == 0) {
+    for (int i = 0; i < (MAX_PIN - pinOffset) / 2; ++i) {
+      CapacitiveSensor cs = CapacitiveSensor(pinOffset + (i * 2), pinOffset + (i * 2) + 1);
+      long sensorValue = cs.capacitiveSensor(30);
+      if (sensorValue < 0) {
+        numberOfBuzzers = i;
+        break;
+      }
+    }
+    bs = BuzzerSet(numberOfBuzzers, touchThreshold);
+  }
+
 }
 
 void loop() {
@@ -188,8 +206,8 @@ void loop() {
       inputIndex++;
     } else {
       inputBuffer[inputIndex] = '\0';
-      // Serial.print("Received: ");
-      // Serial.println(inputBuffer);
+      Serial.print("Received: ");
+      Serial.println(inputBuffer);
       String inputString = String(inputBuffer);
 
       if (inputString.startsWith("MODE:")) {

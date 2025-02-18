@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import { ArduinoMode } from "./App";
 
 interface BuzzerPageProps {
   teamQueue: string[];
-  setArduinoMode: (newMode: ArduinoMode) => void;
+  requestArduinoMode: (newMode: ArduinoMode) => void;
+  secondsToAnswer?: number;
 }
-
-const secondsToAnswer = 3;
 
 const itemVariants = {
   initial: { opacity: 0, x: 20 },
@@ -15,17 +14,32 @@ const itemVariants = {
   exit: { opacity: 0, x: -20, transition: { duration: 0.3 } }, // Animate to the left on exit
 };
 
-const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, setArduinoMode }) => {
+const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, requestArduinoMode, secondsToAnswer = 15 }) => {
+  const latestTeamQueue = useRef(teamQueue);
+  const latestSecondsToAnswer = useRef(secondsToAnswer);
   const [remainingTime, setRemainingTime] = useState(0);
   const [activeTeamIndex, setActiveTeamIndex] = useState(-1);
 
+  useEffect(() => {
+    latestTeamQueue.current = teamQueue;
+  }, [teamQueue]);
+
+  useEffect(() => {
+    latestSecondsToAnswer.current = secondsToAnswer
+  }, [secondsToAnswer]);
 
   useEffect(() => {
     const handleGlobalKeyDown = (event: { keyCode: number; }) => {
+      // Space bar pressed, move onto next team
       if (event.keyCode === 32) {
-        // Need to find a way to prevent incrementation when is less than teamQueue, might have to useRefs?
-        setActiveTeamIndex((oldActiveTeamIndex) => oldActiveTeamIndex + 1);
-        setRemainingTime(secondsToAnswer * 1000);
+        setActiveTeamIndex((oldActiveTeamIndex) => {
+          if (oldActiveTeamIndex < latestTeamQueue.current.length - 1) {
+            setRemainingTime(latestSecondsToAnswer.current * 1000);
+            return oldActiveTeamIndex + 1;
+          }
+
+          return oldActiveTeamIndex;
+        });
       }
     };
 
@@ -36,6 +50,8 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, setArduinoMode }) =>
     };
   }, []);
 
+  // I am unsure if secondsToAnswer needs to be changed to latestSecondsToAnswer.current since
+  // it is not a callback...
   useEffect(() => {
     if (teamQueue.length === 1 && activeTeamIndex === -1) {
       setActiveTeamIndex(0);
@@ -65,7 +81,8 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, setArduinoMode }) =>
     return () => clearInterval(timer);
   }, [remainingTime]);
 
-
+  // TODO Make a nice timer graphic
+  const progress = 1 - (remainingTime / (secondsToAnswer * 1000));
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "95vh" }}>
       <motion.div className="row" style={{ height: "10vh" }}>
@@ -93,12 +110,12 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, setArduinoMode }) =>
       <div style={{ height: "75vh", alignItems: "center", justifyContent: "center", display: "flex" }}>
         {
           activeTeamIndex >= 0 && activeTeamIndex < teamQueue.length ?
-            <h1>{(remainingTime / 1000).toFixed(3)}</h1> :
-            <h1>Waiting for buzzes</h1>
+            <h1 style={{ fontSize: "10em", color: `hsl(356 ${Math.floor(progress * 100)}% 65%)` }}>{(remainingTime / 1000).toFixed(3)}</h1> :
+            <h1 style={{ fontSize: "6em" }}>Waiting for buzzes</h1>
         }
       </div>
       <div style={{ flex: 1 }} className="row">
-        <button onClick={() => setArduinoMode(ArduinoMode.LOG_SENSOR)}>dev mode</button>
+        <button onClick={() => requestArduinoMode(ArduinoMode.LOG_SENSOR)}>dev mode</button>
       </div>
     </div>
   );

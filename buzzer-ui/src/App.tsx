@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import BuzzerPage from './BuzzerPage';
 import AdminPage from './AdminPage';
@@ -22,12 +22,50 @@ const encoder = new TextEncoder();
 
 function App() {
   const [teamQueue, setTeamQueue] = useState<string[]>([]);
+  const [sensorData, setSensorData] = useState<object[]>([]);
   const [arduinoMode, setArduinoMode] = useState<ArduinoMode>(ArduinoMode.LOG_TOUCH);
 
   const [port, setPort] = useState(null);
   const [reader, setReader] = useState(null);
   const [writer, setWriter] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
+
+  const latestArduinoMode = useRef(arduinoMode);
+  const latestSensorData = useRef(sensorData);
+
+  useEffect(() => {
+    latestArduinoMode.current = arduinoMode;
+
+    switch (arduinoMode) {
+      case ArduinoMode.LOG_SENSOR:
+        setTeamQueue([]);
+        break;
+      case ArduinoMode.LOG_TOUCH:
+        break;
+    }
+  }, [arduinoMode]);
+
+  const sendSerial = async (text: string) => {
+    if (writer != null) {
+      await writer.write(encoder.encode(text + "\n"));
+    } else {
+      console.error("WRITER IS NULL, CANNOT WRITE DATA")
+    }
+  }
+
+  const requestArduinoMode = async (requestedMode: ArduinoMode) => {
+    switch (requestedMode) {
+      case ArduinoMode.LOG_SENSOR:
+        await sendSerial("MODE:LOG_SENSOR");
+        break;
+      case ArduinoMode.LOG_TOUCH:
+        await sendSerial("MODE:LOG_TOUCH");
+        break;
+      default:
+        console.error("UNKNOWN MODE TO SEND");
+        break;
+    }
+  }
 
   const connectToSerial = async () => {
     try {
@@ -69,11 +107,11 @@ function App() {
           break;
       }
     }
-    // This else if does not work due to staleness, must use a derived state variable or something
-    else if (arduinoMode === ArduinoMode.LOG_TOUCH) {
+    else if (latestArduinoMode.current === ArduinoMode.LOG_TOUCH) {
       const buzzedTeams = inputString.split(";")
       console.log(buzzedTeams);
       for (const team of buzzedTeams) {
+        // Could choose from the buzzed teams randomly?
         if (team.length > 0) {
           const teamName = teamNumberToName(parseInt(team));
           setTeamQueue((oldQueue) => {
@@ -83,6 +121,26 @@ function App() {
             return [...oldQueue, teamName];
           });
         }
+      }
+    } else if (latestArduinoMode.current === ArduinoMode.LOG_SENSOR) {
+      const buzzerData = inputString.split(";").reduce((obj, value, idx) => {
+        if (value.length > 0) {
+          obj[idx.toString()] = parseInt(value);
+        }
+        return obj;
+      }, {});
+      const currentTime = Date.now();
+      buzzerData["time"] = currentTime;
+
+      latestSensorData.current.push(buzzerData);
+
+      if (latestSensorData.current.length > 500) {
+        latestSensorData.current.shift();
+      }
+
+      if (latestSensorData.current.length > 0 && currentTime - latestSensorData.current[0]["time"] > 50) {
+        console.log(latestSensorData.current.length);
+        setSensorData([...latestSensorData.current]);
       }
     }
   }
@@ -181,13 +239,13 @@ function App() {
 
   switch (arduinoMode) {
     case ArduinoMode.LOG_TOUCH:
-      return (<BuzzerPage teamQueue={teamQueue} setArduinoMode={setArduinoMode} />);
+      return (<BuzzerPage teamQueue={teamQueue} requestArduinoMode={requestArduinoMode} />);
     case ArduinoMode.LOG_SENSOR:
-      return (<AdminPage setArduinoMode={setArduinoMode} />);
+      return (<AdminPage requestArduinoMode={requestArduinoMode} sensorData={sensorData} />);
     default:
       return (<h1>WARNING: ARDUINO IN UNKNOWN MODE</h1>)
   }
 
 }
 
-export default App
+export default App;
