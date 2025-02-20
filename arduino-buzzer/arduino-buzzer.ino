@@ -110,6 +110,16 @@ public:
     }
   }
 
+  void logTouchThreshold()
+  {
+    for (int i = 0; i < totalBuzzers_; ++i) {
+      Serial.print("THRESHOLD:");
+      Serial.print(i);
+      Serial.print(",");
+      Serial.println(buzzers_[i].getTouchThreshold());
+    }
+  }
+
   void setTouchThreshold(int buzzerIndex, long touchThreshold)
   {
     if (buzzerIndex < 0 && buzzerIndex >= totalBuzzers_) {
@@ -119,7 +129,7 @@ public:
       Serial.print("THRESHOLD:");
       Serial.print(buzzerIndex);
       Serial.print(",");
-      Serial.print(buzzers_[buzzerIndex].getTouchThreshold());
+      Serial.println(buzzers_[buzzerIndex].getTouchThreshold());
     }
   }
 
@@ -166,6 +176,36 @@ String serialModeToString(const SerialMode& mode) {
   }
 }
 
+bool parseThresholdString(const String& thresholdString, int& index, long& value) {
+  // Find the positions of the delimiters
+  int colonPos = thresholdString.indexOf(':');
+  if (colonPos == -1) {
+    return false;
+  }
+
+  int commaPos = thresholdString.indexOf(',');
+  if (commaPos == -1 || commaPos <= colonPos) {
+    return false;
+  }
+
+  // Extract the substrings
+  String indexStr = thresholdString.substring(colonPos + 1, commaPos);
+  String valueStr = thresholdString.substring(commaPos + 1);
+
+  // Convert the substrings to integers
+  index = indexStr.toInt();
+  if (index < 0) {
+    return false;
+  }
+
+  value = valueStr.toInt();
+  if (value < 0) {
+    return false;
+  }
+
+  return true;
+}
+
 int numberOfBuzzers = 1;
 long touchThreshold = 800;
 BuzzerSet bs = BuzzerSet(numberOfBuzzers > 0 ? numberOfBuzzers : 1, touchThreshold);
@@ -195,6 +235,8 @@ void setup() {
     bs = BuzzerSet(numberOfBuzzers, touchThreshold);
   }
 
+  // We log at the beginning so the React App knows the Buzzer thresholds
+  bs.logTouchThreshold();
 }
 
 void loop() {
@@ -206,8 +248,8 @@ void loop() {
       inputIndex++;
     } else {
       inputBuffer[inputIndex] = '\0';
-      Serial.print("Received: ");
-      Serial.println(inputBuffer);
+      // Serial.print("Received: ");
+      // Serial.println(inputBuffer);
       String inputString = String(inputBuffer);
 
       if (inputString.startsWith("MODE:")) {
@@ -217,7 +259,13 @@ void loop() {
           Serial.println(serialModeToString(serialMode)); // Confirm change
         }
       } else if (inputString.startsWith("THRESHOLD:")) {
-        Serial.println("Threshold command not implemented");
+        int buzzerIdx = -1;
+        long newThresholdValue = 0;
+
+        bool result = parseThresholdString(inputString, buzzerIdx, newThresholdValue);
+        if (result) {
+          bs.setTouchThreshold(buzzerIdx, newThresholdValue);
+        }
       }
       inputIndex = 0; // Reset for the next input
     }

@@ -148,9 +148,9 @@ function App() {
     }
     else if (latestArduinoMode.current === ArduinoMode.LOG_TOUCH) {
       const buzzedTeams = inputString.split(";")
+      buzzedTeams.sort(() => Math.random() - .5);
       // console.log(buzzedTeams);
       for (const team of buzzedTeams) {
-        // Could choose from the buzzed teams randomly?
         if (team.length > 0) {
           const teamName = teamNumberToName(parseInt(team));
           setTeamQueue((oldQueue) => {
