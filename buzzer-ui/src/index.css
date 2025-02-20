@@ -16,7 +16,7 @@ body {
   color: rgb(229, 186, 250);
   font-size: 3rem;
   text-shadow: 0px 0px 40px rgb(229, 186, 250);
-  transition: text-shadow .35s ease-in-out;
+  transition: text-shadow 0.35s ease-in-out;
 }
 
 .row {
@@ -41,14 +41,14 @@ button {
   border: 1px white solid;
   border-radius: 10px;
 
-  transition: all ease-in-out .15s;
+  transition: all ease-in-out 0.15s;
 }
 
 button:hover {
   background-color: rgb(149, 92, 175);
   border-color: rgb(149, 92, 175);
 
-  transition: all ease-in-out .15s;
+  transition: all ease-in-out 0.15s;
 }
 
 input {
@@ -60,7 +60,7 @@ input {
   border: 1px white solid;
   border-radius: 10px;
 
-  transition: all ease-in-out .15s;
+  transition: all ease-in-out 0.15s;
   margin-left: 2em;
 }
 

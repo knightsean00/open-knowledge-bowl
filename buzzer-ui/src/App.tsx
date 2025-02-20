@@ -1,18 +1,18 @@
-import { useState, useEffect, useRef } from 'react'
-import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
-import BuzzerPage from './BuzzerPage';
-import AdminPage from './AdminPage';
-import { input } from 'motion/react-client';
+import { useState, useEffect, useRef } from "react";
+import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import BuzzerPage from "./BuzzerPage";
+import AdminPage from "./AdminPage";
+import { input } from "motion/react-client";
 
 export enum ArduinoMode {
   LOG_TOUCH,
   LOG_SENSOR,
-  UNKNOWN
+  UNKNOWN,
 }
 
 const teamNumberToName = (teamIndex: number) => {
   return `Team ${teamIndex + 1}`;
-}
+};
 
 // Main App that renders the correct page based on the mode (taken from serial)
 //    TouchSensor Page
@@ -26,7 +26,9 @@ function App() {
   const [teamQueue, setTeamQueue] = useState<string[]>([]);
   const [sensorData, setSensorData] = useState<object[]>([]);
   const [buzzerThresholds, setBuzzerThresholds] = useState<number[]>([]);
-  const [arduinoMode, setArduinoMode] = useState<ArduinoMode>(ArduinoMode.LOG_TOUCH);
+  const [arduinoMode, setArduinoMode] = useState<ArduinoMode>(
+    ArduinoMode.LOG_TOUCH
+  );
 
   const [port, setPort] = useState(null);
   const [reader, setReader] = useState(null);
@@ -52,9 +54,9 @@ function App() {
     if (writer != null) {
       await writer.write(encoder.encode(text + "\n"));
     } else {
-      console.error("WRITER IS NULL, CANNOT WRITE DATA")
+      console.error("WRITER IS NULL, CANNOT WRITE DATA");
     }
-  }
+  };
 
   const requestArduinoMode = async (requestedMode: ArduinoMode) => {
     switch (requestedMode) {
@@ -68,15 +70,17 @@ function App() {
         console.error("UNKNOWN MODE TO SEND");
         break;
     }
-  }
+  };
 
   const setNewThreshold = async (buzzerIdx: number, threshold: number) => {
     if (buzzerIdx < 0 || threshold < 0) {
-      console.error("CANNOT SEND THRESHOLD WITH INDEX BELOW 0 OR THRESHOLD BELOW 0");
+      console.error(
+        "CANNOT SEND THRESHOLD WITH INDEX BELOW 0 OR THRESHOLD BELOW 0"
+      );
     } else {
       await sendSerial(`THRESHOLD:${buzzerIdx},${threshold}`);
     }
-  }
+  };
 
   const connectToSerial = async () => {
     try {
@@ -87,7 +91,7 @@ function App() {
         alert(`Found ${ports.length} ports to read. Cannot decide.`);
         return;
       }
-      const port = ports[0]
+      const port = ports[0];
       await port.open({ baudRate: 9600 }); // Or your baud rate
       setPort(port);
       setIsConnected(true);
@@ -99,7 +103,6 @@ function App() {
 
       // Start reading loop
       readLoop(reader);
-
     } catch (error) {
       console.error("Error opening serial port:", error);
     }
@@ -118,8 +121,7 @@ function App() {
           setArduinoMode(ArduinoMode.UNKNOWN);
           break;
       }
-    }
-    else if (inputString.startsWith("THRESHOLD:")) {
+    } else if (inputString.startsWith("THRESHOLD:")) {
       const thresholdSplit = inputString.split(":").join(",").split(",");
       if (thresholdSplit.length != 3) {
         return;
@@ -142,13 +144,11 @@ function App() {
         newThresholds[buzzerIdx] = threshold;
         return newThresholds;
       });
-    }
-    else if (inputString.startsWith("ERROR:")) {
+    } else if (inputString.startsWith("ERROR:")) {
       console.error(inputString);
-    }
-    else if (latestArduinoMode.current === ArduinoMode.LOG_TOUCH) {
-      const buzzedTeams = inputString.split(";")
-      buzzedTeams.sort(() => Math.random() - .5);
+    } else if (latestArduinoMode.current === ArduinoMode.LOG_TOUCH) {
+      const buzzedTeams = inputString.split(";");
+      buzzedTeams.sort(() => Math.random() - 0.5);
       // console.log(buzzedTeams);
       for (const team of buzzedTeams) {
         if (team.length > 0) {
@@ -178,15 +178,18 @@ function App() {
         latestSensorData.current.shift();
       }
 
-      if (latestSensorData.current.length > 0 && currentTime - latestSensorData.current[0]["time"] > 50) {
+      if (
+        latestSensorData.current.length > 0 &&
+        currentTime - latestSensorData.current[0]["time"] > 50
+      ) {
         setSensorData([...latestSensorData.current]);
       }
     }
-  }
+  };
 
   const readLoop = async (reader) => {
     let partialMessage = "";
-    const terminator = "\n"
+    const terminator = "\n";
     try {
       while (true) {
         const { value, done } = await reader.read();
@@ -205,7 +208,9 @@ function App() {
           // console.log(completeMessage);
           handleSerialRead(completeMessage.trim());
 
-          partialMessage = partialMessage.substring(terminatorIndex + terminator.length);
+          partialMessage = partialMessage.substring(
+            terminatorIndex + terminator.length
+          );
         }
       }
     } catch (error) {
@@ -224,7 +229,7 @@ function App() {
 
   const disconnectFromSerial = async () => {
     if (reader) {
-      await reader.cancel();  // Stop the reader
+      await reader.cancel(); // Stop the reader
     }
 
     if (writer) {
@@ -238,7 +243,6 @@ function App() {
     }
   };
 
-
   useEffect(() => {
     // Clean up on unmount (important!)
     return () => {
@@ -248,21 +252,22 @@ function App() {
     };
   }, [port, reader, writer]);
 
-
   useEffect(() => {
-    const handleGlobalKeyDown = (event: { key: string; }) => {
-      if (event.key === 'Enter') {
-        setTeamQueue((oldQueue) => [...oldQueue, `Team ${oldQueue.length + 1}`]);
-      }
-      else if (event.key === "Delete") {
+    const handleGlobalKeyDown = (event: { key: string }) => {
+      if (event.key === "Enter") {
+        setTeamQueue((oldQueue) => [
+          ...oldQueue,
+          `Team ${oldQueue.length + 1}`,
+        ]);
+      } else if (event.key === "Delete") {
         setTeamQueue([]);
       }
     };
 
-    document.addEventListener('keydown', handleGlobalKeyDown);
+    document.addEventListener("keydown", handleGlobalKeyDown);
 
     return () => {
-      document.removeEventListener('keydown', handleGlobalKeyDown);
+      document.removeEventListener("keydown", handleGlobalKeyDown);
     };
   }, []);
 
@@ -270,21 +275,34 @@ function App() {
     return (
       <div style={{ display: "flex", flexDirection: "column", height: "95vh" }}>
         <div style={{ flex: 1 }} className="row">
-          <button className="big" onClick={connectToSerial}>Connect to Serial</button>
+          <button className="big" onClick={connectToSerial}>
+            Connect to Serial
+          </button>
         </div>
       </div>
-    )
+    );
   }
 
   switch (arduinoMode) {
     case ArduinoMode.LOG_TOUCH:
-      return (<BuzzerPage teamQueue={teamQueue} requestArduinoMode={requestArduinoMode} />);
+      return (
+        <BuzzerPage
+          teamQueue={teamQueue}
+          requestArduinoMode={requestArduinoMode}
+        />
+      );
     case ArduinoMode.LOG_SENSOR:
-      return (<AdminPage requestArduinoMode={requestArduinoMode} sensorData={sensorData} buzzerThresholds={buzzerThresholds} setBuzzerThreshold={setNewThreshold} />);
+      return (
+        <AdminPage
+          requestArduinoMode={requestArduinoMode}
+          sensorData={sensorData}
+          buzzerThresholds={buzzerThresholds}
+          setBuzzerThreshold={setNewThreshold}
+        />
+      );
     default:
-      return (<h1>WARNING: ARDUINO IN UNKNOWN MODE</h1>)
+      return <h1>WARNING: ARDUINO IN UNKNOWN MODE</h1>;
   }
-
 }
 
 export default App;

@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
+import React, { useEffect, useRef, useState } from "react";
+import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import { ArduinoMode } from "./App";
-import { Circle } from 'rc-progress';
+import { Circle } from "rc-progress";
 
 interface BuzzerPageProps {
   teamQueue: string[];
@@ -15,9 +15,13 @@ const itemVariants = {
   exit: { opacity: 0, x: -20, transition: { duration: 0.3 } }, // Animate to the left on exit
 };
 
-const timerEndAudio = new Audio("/timer_end.mp3")
+const timerEndAudio = new Audio("/timer_end.mp3");
 
-const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, requestArduinoMode, secondsToAnswer = 15 }) => {
+const BuzzerPage: React.FC<BuzzerPageProps> = ({
+  teamQueue,
+  requestArduinoMode,
+  secondsToAnswer = 15,
+}) => {
   const latestTeamQueue = useRef(teamQueue);
   const latestSecondsToAnswer = useRef(secondsToAnswer);
   const [remainingTime, setRemainingTime] = useState(0);
@@ -28,11 +32,11 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, requestArduinoMode, 
   }, [teamQueue]);
 
   useEffect(() => {
-    latestSecondsToAnswer.current = secondsToAnswer
+    latestSecondsToAnswer.current = secondsToAnswer;
   }, [secondsToAnswer]);
 
   useEffect(() => {
-    const handleGlobalKeyDown = (event: { keyCode: number; }) => {
+    const handleGlobalKeyDown = (event: { keyCode: number }) => {
       // Space bar pressed, move onto next team
       if (event.keyCode === 32) {
         setActiveTeamIndex((oldActiveTeamIndex) => {
@@ -46,10 +50,10 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, requestArduinoMode, 
       }
     };
 
-    document.addEventListener('keydown', handleGlobalKeyDown);
+    document.addEventListener("keydown", handleGlobalKeyDown);
 
     return () => {
-      document.removeEventListener('keydown', handleGlobalKeyDown);
+      document.removeEventListener("keydown", handleGlobalKeyDown);
     };
   }, []);
 
@@ -62,13 +66,19 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, requestArduinoMode, 
     } else if (teamQueue.length === 0) {
       setActiveTeamIndex(-1);
       setRemainingTime(0);
-    } else if (activeTeamIndex === teamQueue.length - 2 && remainingTime === 0) {
+    } else if (
+      activeTeamIndex === teamQueue.length - 2 &&
+      remainingTime === 0
+    ) {
       setActiveTeamIndex(teamQueue.length - 1);
       setRemainingTime(secondsToAnswer * 1000);
-    } else if (activeTeamIndex === teamQueue.length - 1 && remainingTime < secondsToAnswer * 1000) {
+    } else if (
+      activeTeamIndex === teamQueue.length - 1 &&
+      remainingTime < secondsToAnswer * 1000
+    ) {
       setRemainingTime(secondsToAnswer * 1000);
     }
-  }, [teamQueue])
+  }, [teamQueue]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -92,11 +102,14 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, requestArduinoMode, 
   }, [remainingTime]);
 
   // TODO Make a nice timer graphic
-  const progress = 1 - (remainingTime / (secondsToAnswer * 1000));
+  const progress = 1 - remainingTime / (secondsToAnswer * 1000);
   const progressColor = `hsl(356 ${Math.floor(progress * 100)}% 80%)`;
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "95vh" }}>
-      <motion.div className="row" style={{ height: "10vh", textAlign: "center" }}>
+      <motion.div
+        className="row"
+        style={{ height: "10vh", textAlign: "center" }}
+      >
         <LayoutGroup>
           <AnimatePresence>
             {teamQueue.map((team, idx) => (
@@ -108,7 +121,7 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, requestArduinoMode, 
                 exit="exit"
                 layout
                 style={{
-                  whiteSpace: 'nowrap',
+                  whiteSpace: "nowrap",
                 }}
                 className={idx === activeTeamIndex ? "active" : "inactive"}
               >
@@ -118,21 +131,41 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, requestArduinoMode, 
           </AnimatePresence>
         </LayoutGroup>
       </motion.div>
-      <div style={{ height: "70vh", position: "relative", paddingTop: "3vh", paddingBottom: "3vh" }}>
-        {
-          activeTeamIndex >= 0 && activeTeamIndex < teamQueue.length ?
-            <>
-              <div className="progress-number mono" style={{ color: progressColor }}>{(remainingTime / 1000).toFixed(3)}</div>
-              <Circle className="progress-circle" strokeColor={progressColor} percent={(1 - progress) * 100} strokeWidth={4} trailColor="#777777"/>
-            </> :
-            <div className="progress-number">Waiting for buzzes</div>
-        }
+      <div
+        style={{
+          height: "70vh",
+          position: "relative",
+          paddingTop: "3vh",
+          paddingBottom: "3vh",
+        }}
+      >
+        {activeTeamIndex >= 0 && activeTeamIndex < teamQueue.length ? (
+          <>
+            <div
+              className="progress-number mono"
+              style={{ color: progressColor }}
+            >
+              {(remainingTime / 1000).toFixed(3)}
+            </div>
+            <Circle
+              className="progress-circle"
+              strokeColor={progressColor}
+              percent={(1 - progress) * 100}
+              strokeWidth={3}
+              trailColor="#777777"
+            />
+          </>
+        ) : (
+          <div className="progress-number">Waiting for buzzes</div>
+        )}
       </div>
       <div style={{ flex: 1 }} className="row">
-        <button onClick={() => requestArduinoMode(ArduinoMode.LOG_SENSOR)}>dev mode</button>
+        <button onClick={() => requestArduinoMode(ArduinoMode.LOG_SENSOR)}>
+          dev mode
+        </button>
       </div>
     </div>
   );
-}
+};
 
 export default BuzzerPage;
