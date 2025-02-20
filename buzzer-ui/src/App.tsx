@@ -20,9 +20,12 @@ const teamNumberToName = (teamIndex: number) => {
 
 const encoder = new TextEncoder();
 
+const buzzerAudio = new Audio("/buzzer.mp3");
+
 function App() {
   const [teamQueue, setTeamQueue] = useState<string[]>([]);
   const [sensorData, setSensorData] = useState<object[]>([]);
+  const [buzzerThresholds, setBuzzerThresholds] = useState<number[]>([]);
   const [arduinoMode, setArduinoMode] = useState<ArduinoMode>(ArduinoMode.LOG_TOUCH);
 
   const [port, setPort] = useState(null);
@@ -67,12 +70,21 @@ function App() {
     }
   }
 
+  const setNewThreshold = async (buzzerIdx: number, threshold: number) => {
+    if (buzzerIdx < 0 || threshold < 0) {
+      console.error("CANNOT SEND THRESHOLD WITH INDEX BELOW 0 OR THRESHOLD BELOW 0");
+    } else {
+      await sendSerial(`THRESHOLD:${buzzerIdx},${threshold}`);
+    }
+  }
+
   const connectToSerial = async () => {
     try {
       await navigator.serial.requestPort();
-      const ports = await navigator.serial.getPorts();
+      let ports = await navigator.serial.getPorts();
+      ports = ports.filter((port) => port.connected);
       if (ports.length != 1) {
-        alert("Could not find port to read");
+        alert(`Found ${ports.length} ports to read. Cannot decide.`);
         return;
       }
       const port = ports[0]
@@ -107,9 +119,36 @@ function App() {
           break;
       }
     }
+    else if (inputString.startsWith("THRESHOLD:")) {
+      const thresholdSplit = inputString.split(":").join(",").split(",");
+      if (thresholdSplit.length != 3) {
+        return;
+      }
+      const buzzerIdx = parseInt(thresholdSplit[1]);
+      const threshold = parseInt(thresholdSplit[2]);
+
+      if (buzzerIdx < 0 || threshold < 0) {
+        return;
+      }
+
+      setBuzzerThresholds((oldThreshold) => {
+        const newThresholds = [...oldThreshold];
+
+        // This could be more efficient
+        while (newThresholds.length <= buzzerIdx) {
+          newThresholds.push(0);
+        }
+
+        newThresholds[buzzerIdx] = threshold;
+        return newThresholds;
+      });
+    }
+    else if (inputString.startsWith("ERROR:")) {
+      console.error(inputString);
+    }
     else if (latestArduinoMode.current === ArduinoMode.LOG_TOUCH) {
       const buzzedTeams = inputString.split(";")
-      console.log(buzzedTeams);
+      // console.log(buzzedTeams);
       for (const team of buzzedTeams) {
         // Could choose from the buzzed teams randomly?
         if (team.length > 0) {
@@ -118,6 +157,7 @@ function App() {
             if (oldQueue.includes(teamName)) {
               return oldQueue;
             }
+            buzzerAudio.play();
             return [...oldQueue, teamName];
           });
         }
@@ -139,7 +179,6 @@ function App() {
       }
 
       if (latestSensorData.current.length > 0 && currentTime - latestSensorData.current[0]["time"] > 50) {
-        console.log(latestSensorData.current.length);
         setSensorData([...latestSensorData.current]);
       }
     }
@@ -231,7 +270,7 @@ function App() {
     return (
       <div style={{ display: "flex", flexDirection: "column", height: "95vh" }}>
         <div style={{ flex: 1 }} className="row">
-          <button onClick={connectToSerial}>Connect to Serial</button>
+          <button className="big" onClick={connectToSerial}>Connect to Serial</button>
         </div>
       </div>
     )
@@ -241,7 +280,7 @@ function App() {
     case ArduinoMode.LOG_TOUCH:
       return (<BuzzerPage teamQueue={teamQueue} requestArduinoMode={requestArduinoMode} />);
     case ArduinoMode.LOG_SENSOR:
-      return (<AdminPage requestArduinoMode={requestArduinoMode} sensorData={sensorData} />);
+      return (<AdminPage requestArduinoMode={requestArduinoMode} sensorData={sensorData} buzzerThresholds={buzzerThresholds} setBuzzerThreshold={setNewThreshold} />);
     default:
       return (<h1>WARNING: ARDUINO IN UNKNOWN MODE</h1>)
   }

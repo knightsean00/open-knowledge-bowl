@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import { ArduinoMode } from "./App";
+import { Circle } from 'rc-progress';
 
 interface BuzzerPageProps {
   teamQueue: string[];
@@ -13,6 +14,8 @@ const itemVariants = {
   animate: { opacity: 1, x: 0, transition: { duration: 0.3 } },
   exit: { opacity: 0, x: -20, transition: { duration: 0.3 } }, // Animate to the left on exit
 };
+
+const timerEndAudio = new Audio("/timer_end.mp3")
 
 const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, requestArduinoMode, secondsToAnswer = 15 }) => {
   const latestTeamQueue = useRef(teamQueue);
@@ -72,7 +75,14 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, requestArduinoMode, 
 
     if (remainingTime > 0) {
       timer = setInterval(() => {
-        setRemainingTime((prevTime) => prevTime - 17 >= 0 ? prevTime - 17 : 0);
+        setRemainingTime((prevTime) => {
+          const newTime = prevTime - 17 >= 0 ? prevTime - 17 : 0;
+          if (newTime === 0) {
+            timerEndAudio.play();
+          }
+
+          return newTime;
+        });
       }, 17);
     } else {
       setRemainingTime(0);
@@ -83,9 +93,10 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, requestArduinoMode, 
 
   // TODO Make a nice timer graphic
   const progress = 1 - (remainingTime / (secondsToAnswer * 1000));
+  const progressColor = `hsl(356 ${Math.floor(progress * 100)}% 80%)`;
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "95vh" }}>
-      <motion.div className="row" style={{ height: "10vh" }}>
+      <motion.div className="row" style={{ height: "10vh", textAlign: "center" }}>
         <LayoutGroup>
           <AnimatePresence>
             {teamQueue.map((team, idx) => (
@@ -107,11 +118,14 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({ teamQueue, requestArduinoMode, 
           </AnimatePresence>
         </LayoutGroup>
       </motion.div>
-      <div style={{ height: "75vh", alignItems: "center", justifyContent: "center", display: "flex" }}>
+      <div style={{ height: "70vh", position: "relative", paddingTop: "3vh", paddingBottom: "3vh" }}>
         {
           activeTeamIndex >= 0 && activeTeamIndex < teamQueue.length ?
-            <h1 style={{ fontSize: "10em", color: `hsl(356 ${Math.floor(progress * 100)}% 65%)` }}>{(remainingTime / 1000).toFixed(3)}</h1> :
-            <h1 style={{ fontSize: "6em" }}>Waiting for buzzes</h1>
+            <>
+              <div className="progress-number mono" style={{ color: progressColor }}>{(remainingTime / 1000).toFixed(3)}</div>
+              <Circle className="progress-circle" strokeColor={progressColor} percent={(1 - progress) * 100} strokeWidth={4} trailColor="#777777"/>
+            </> :
+            <div className="progress-number">Waiting for buzzes</div>
         }
       </div>
       <div style={{ flex: 1 }} className="row">

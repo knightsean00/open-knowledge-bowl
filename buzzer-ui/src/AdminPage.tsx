@@ -5,7 +5,8 @@ import { CartesianGrid, LineChart, XAxis, YAxis, Tooltip, Legend, Line, Responsi
 interface AdminPageProps {
   requestArduinoMode: (newMode: ArduinoMode) => void;
   sensorData: object[];
-  // setBuzzerThreshold: (buzzerIndex: number, touchThreshold: number) => void;
+  buzzerThresholds: number[];
+  setBuzzerThreshold: (buzzerIndex: number, touchThreshold: number) => void;
 }
 
 const keyToColorMapping = {
@@ -19,11 +20,13 @@ const keyToColorMapping = {
 // TODO: Allow threshold to be set
 // FIRST PASS JUST SET THRESHOLD
 // SECOND PASS GET ACTUAL THRESHOLD VALUES CONFIRMED FROM ARDUINO
-const AdminPage: React.FC<AdminPageProps> = ({ requestArduinoMode, sensorData }) => {
+const AdminPage: React.FC<AdminPageProps> = ({ requestArduinoMode, sensorData, buzzerThresholds, setBuzzerThreshold }) => {
+  const [newBuzzerThresholds, setNewBuzzerThresholds] = useState<number[]>(buzzerThresholds.slice());
+
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "95vh" }}>
-      <div style={{ height: "90vh", display: "flex", flexDirection: "row"}}>
-        <div style={{ flex: 1}}>
+      <div style={{ height: "90vh", display: "flex", flexDirection: "row" }}>
+        <div style={{ flex: 1 }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={sensorData}
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
@@ -46,7 +49,24 @@ const AdminPage: React.FC<AdminPageProps> = ({ requestArduinoMode, sensorData })
             </LineChart>
           </ResponsiveContainer>
         </div>
-        <div style={{ flex: 1}}></div>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+          {
+            newBuzzerThresholds.map((val, idx) => {
+              return (
+                <div>
+                  <label>Buzzer {idx}</label>
+                  <input value={val} key={idx} onChange={(event) => {
+                    setNewBuzzerThresholds((oldThresholds) => {
+                      const newThresholds = [...oldThresholds];
+                      newThresholds[idx] = event.target.value.length > 0 ? parseInt(event.target.value) : 0;
+                      return newThresholds;
+                    })
+                  }} onBlur={() => setBuzzerThreshold(idx, newBuzzerThresholds[idx])} />
+                </div>
+              )
+            })
+          }
+        </div>
       </div>
       <div style={{ flex: 1 }} className="row">
         <button onClick={() => requestArduinoMode(ArduinoMode.LOG_TOUCH)}>tournament mode</button>
