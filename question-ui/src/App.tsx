@@ -9,7 +9,7 @@ function App() {
   const [selectQuestions, setSelectedQuestions] = useState<string[]>([]);
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [numberOfTeams, setNumberOfTeams] = useState(3);
-  const [teamScore, setTeamScore] = useState<number[]>([]);
+  // const [_, setTeamScore] = useState<number[]>([]);
 
   useEffect(() => {
     setTotalQuestions(Object.entries(questions).reduce((prevVal, curVal) => selectQuestions.includes(curVal[0]) ? prevVal + curVal[1].length : prevVal, 0))
@@ -30,7 +30,7 @@ function App() {
       alert("You must select at least one valid question pack");
     }
 
-    setTeamScore(new Array(numberOfTeams).fill(0));
+    // setTeamScore(new Array(numberOfTeams).fill(0));
     setStart(true);
   }
 
