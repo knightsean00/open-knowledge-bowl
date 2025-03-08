@@ -1,0 +1,104 @@
+body {
+  font-family: "Atkinson Hyperlegible Mono", serif;
+  text-transform: uppercase;
+
+  /* font-family: -apple-system, BlsinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; */
+  background-color: rgb(6, 5, 12);
+  color: rgb(231, 226, 219);
+}
+
+.inactive {
+  color: rgb(153, 151, 147);
+  font-size: 2em;
+}
+
+.active {
+  color: rgb(229, 186, 250);
+  font-size: 3rem;
+  text-shadow: 0px 0px 40px rgb(229, 186, 250);
+  transition: text-shadow 0.35s ease-in-out;
+}
+
+.row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  /* width: 100%; */
+  margin: 1em;
+}
+
+.big {
+  font-size: 1.5em;
+}
+
+button {
+  font-family: "Atkinson Hyperlegible Mono", serif;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: rgb(231, 226, 219);
+  background-color: transparent;
+  padding: 1em;
+  border: 1px white solid;
+  border-radius: 10px;
+
+  transition: all ease-in-out 0.15s;
+}
+
+button:hover {
+  background-color: rgb(149, 92, 175);
+  border-color: rgb(149, 92, 175);
+
+  transition: all ease-in-out 0.15s;
+}
+
+input {
+  font-family: "Atkinson Hyperlegible Mono", serif;
+
+  color: rgb(231, 226, 219);
+  background-color: transparent;
+  padding: 1em;
+  border: 1px white solid;
+  border-radius: 10px;
+
+  transition: all ease-in-out 0.15s;
+  margin-left: 2em;
+}
+
+input:focus {
+  border: 1px rgb(149, 92, 175) solid;
+  outline: none;
+}
+
+/* .progress-container {
+  position: relative;
+  display: inline-block;
+} */
+
+.progress-number {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  font-size: 6em;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  /* transform: translateY(25%); */
+  /* top: 50%; */
+  /* left: 50%; */
+  /* transform: (-50%, -50%); */
+  z-index: 100;
+}
+
+.mono {
+  font-family: "Atkinson Hyperlegible Mono", serif;
+}
+
+.progress-circle {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
