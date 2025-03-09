@@ -1,4 +1,5 @@
 import { QuestionArray } from './Types';
+import { useState } from 'react';
 
 
 
@@ -15,11 +16,14 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
   selectQuestions,
   setQuestions,
 }) => {
+  const [questionNumber, setQuestionNumber] = useState(1);
 
   const moveToNextQuestion = () => {
     setQuestions((old) => {
       return old.slice(1);
-    })
+    });
+
+    setQuestionNumber((old) => old + 1);
   }
 
   if (selectQuestions.length === 0) {
@@ -51,6 +55,9 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
   return (
     <div style={{ display: "flex", flexDirection: "column", marginTop: "3rem", alignItems: "center" }}>
       <div className="row">
+        <h3>Question #{questionNumber}</h3>
+      </div>
+      <div className="row">
         <h3>{selectQuestions.length} Remaining Questions</h3>
       </div>
       <div style={{ maxWidth: "1200px", display: "flex", flexDirection: "column", marginTop: "5rem", alignItems: "center", wordBreak: "normal" }}>
@@ -60,7 +67,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
       <div className="row">
         <button className="big" style={{marginTop: "7rem"}} onClick={moveToNextQuestion}>None Correct</button>
       </div>
-      <div className="row" style={{ width: "100vw", marginTop: "3rem" }}>
+      <div className="row" style={{ width: "100vw", marginTop: "3rem", flexWrap: "wrap" }}>
         {
           teamScores.map((val, idx) => {
             return (
