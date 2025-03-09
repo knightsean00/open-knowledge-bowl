@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import arrayShuffle from 'array-shuffle';
+
 import questions from "./questions.json";
 import { QuestionBank, QuestionArray } from './Types';
 import QuestionPage from './QuestionPage';
@@ -39,7 +41,7 @@ function App() {
     setTeamScore(new Array(numberOfTeams).fill(0));
     setSelectedQuestions(() => {
       const startingQuestions: QuestionArray = [];
-      return Object.entries(questionBank).reduce((prevVal, curVal) => selectQuestionBank.includes(curVal[0]) ? [...prevVal, ...curVal[1]] : prevVal, startingQuestions)
+      return arrayShuffle(Object.entries(questionBank).reduce((prevVal, curVal) => selectQuestionBank.includes(curVal[0]) ? [...prevVal, ...curVal[1]] : prevVal, startingQuestions));
     });
     setStart(true);
   }

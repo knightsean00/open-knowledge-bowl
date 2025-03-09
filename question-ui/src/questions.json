@@ -1,16 +1,288 @@
 {
     "Sean's Question Pack 1": [
         {
-            "Question": "LongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestionLongQuestion",
+            "Question": "What infinity stone did Thanos first collect?",
             "Answer": "Power Stone"
         },
         {
-            "Question": "What infinity stone did Thanos first collect",
-            "Answer": "Power Stone"
+            "Question": "What is the largest ocean on Earth?",
+            "Answer": "Pacific Ocean"
         },
         {
-            "Question": "What infinity stone did Thanos first collect",
-            "Answer": "Power Stone"
+            "Question": "What is the name of the deepest point in any of the world's oceans?",
+            "Answer": "Mariana Trench"
+        },
+        {
+            "Question": "Which country has the most time zones?",
+            "Answer": "France"
+        },
+        {
+            "Question": "What is the name of the strait that separates mainland Russia from Alaska?",
+            "Answer": "Bering Strait"
+        },
+        {
+            "Question": "What is the best-selling album of all time?",
+            "Answer": "Thriller by Michael Jackson"
+        },
+        {
+            "Question": "What is the term for a startup's initial funding round from outside investors, typically venture capitalists?",
+            "Answer": "Seed funding"
+        },
+        {
+            "Question": "What is the term for a company that has reached a valuation of $1 billion?",
+            "Answer": "Unicorn"
+        },
+        {
+            "Question": "Which popular startup accelerator is known for its 'demo day'?",
+            "Answer": "Y Combinator"
+        },
+        {
+            "Question": "What term, often used to describe the rate at which a company spends its cash reserves, is often used in startup context",
+            "Answer": "Burn rate"
+        },
+        {
+            "Question": "What is the state of matter with a definite volume but no definite shape?",
+            "Answer": "Liquid"
+        },
+        {
+            "Question": "What is the name of the force carrier particle for the strong nuclear force?",
+            "Answer": "Gluon"
+        },
+        {
+            "Question": "What is the process by which a cell engulfs large particles or other cells?",
+            "Answer": "Phagocytosis"
+        },
+        {
+            "Question": "What is the term for the non-coding regions of RNA that are spliced out?",
+            "Answer": "Introns"
+        },
+        {
+            "Question": "What is the name of the principle stating that it's impossible to know both position and momentum of a particle precisely?",
+            "Answer": "Heisenberg"
+        },
+        {
+            "Question": "What is the process by which bacteria convert nitrogen gas into ammonia?",
+            "Answer": "Fixation"
+        },
+        {
+            "Question": "What is the name of the particles that mediate the weak nuclear force?",
+            "Answer": "Bosons or W/Z bosons"
+        },
+        {
+            "Question": "What is the term for the programmed cell death?",
+            "Answer": "Apoptosis"
+        },
+        {
+            "Question": "What is the powerhouse of the cell?",
+            "Answer": "Mitochondria"
+        },
+        {
+            "Question": "What is the English translation of this annual holiday in Mexico? El Dia de los Muertos",
+            "Answer": "The Day of the Dead"
+        },
+        {
+            "Question": "What is the largest island in the immediate vicinity of the Seychelles, Mauritius, and the Comoros?",
+            "Answer": "Madagascar"
+        },
+        {
+            "Question": "The British North America Act of 1867 created the Dominion of Canada uniting New Brunswick, Nova Scotia, Quebec, and ...",
+            "Answer": "Ontario"
+        },
+        {
+            "Question": "What is the dependent clause in this line by Voltaire? Those who can make you believe absurdities can make you commit atrocities.",
+            "Answer": "who can make you believe absurdities "
+        },
+        {
+            "Question": "In one story, Sherlock Holmes refers to whom as 'his Boswell'?",
+            "Answer": "Dr. Watson"
+        },
+        {
+            "Question": "Male elk and deer become sexually active and aggressive during a period prior to mating called the ...",
+            "Answer": "rut"
+        },
+        {
+            "Question": "What surgical term means to provide an alternate or additional route for blood flow?",
+            "Answer": "bypass"
+        },
+        {
+            "Question": "What is the sum of two consecutive numbers if their product is 1056?",
+            "Answer": "66"
+        },
+        {
+            "Question": "Given that a molecule of glucose contains 6 atoms of carbon, 12 atoms of hydrogen, and 6 atoms of oxygen, what is its molecular weight?",
+            "Answer": "180 "
+        },
+        {
+            "Question": "When Mary Tudor resorted to persecution of Protestants to reestablish the Roman Church in England, she earned what epithet?",
+            "Answer": "Bloody Mary"
+        },
+        {
+            "Question": "Given f(x) = x squared + 2x -1, find f(-5).",
+            "Answer": "14"
+        },
+        {
+            "Question": "One source of honey's healing properties is an enzyme from the bees' laryngeal glands that combines with glucose and oxygen to form what disinfectant, antiseptic, and oxidizing agent consisting of two atoms of hydrogen and two atoms of oxygen?",
+            "Answer": "hydrogen peroxide"
+        },
+        {
+            "Question": "Sarah has 8 lures, 6 reels, and 4 rods. How many hours can she fish without using the same combination of lure, reel, and rod if her dad hands her a different setup every five minutes?",
+            "Answer": "16"
+        },
+        {
+            "Question": "What fatty acids consist of chains of carbon atoms containing at least one double chemical bond that links to two neighboring carbon atoms?",
+            "Answer": "unsaturated"
+        },
+        {
+            "Question": "What form of capital punishment was Erskine Childers facing when he said this to his executioners? Take a step or two forward, lads - it'll be easier that way",
+            "Answer": "firing squad"
+        },
+        {
+            "Question": "What life form is host to a bacteriophage?",
+            "Answer": "bacterium or bacteria"
+        },
+        {
+            "Question": "After the death of Francisco Franco, Spain adopted many democratic reforms thanks to his successor named ...",
+            "Answer": "(King) Juan Carlos"
+        },
+        {
+            "Question": "In 1882, Germany, Austria-Hungary, and Italy signed a secret treaty known as what alliance?",
+            "Answer": "Triple Alliance"
+        },
+        {
+            "Question": "Name the tale by Robert Louis Stevenson from which this line was taken. Man is not truly one, but truly two.",
+            "Answer": "Dr. Jekyll and Mr. Hyde"
+        },
+        {
+            "Question": "Subconjunctival hemorrhage occurs in what organ?",
+            "Answer": "eye"
+        },
+        {
+            "Question": "Religious wars in Persia between the Sunnis and what other branch of Islam date back to at least the early 1500s?",
+            "Answer": "Shiites"
+        },
+        {
+            "Question": "These words came into English from what language? tornado, mosquito, embargo, armadillo",
+            "Answer": "Spanish"
+        },
+        {
+            "Question": "What form of art was produced when Dadaists pasted to a surface various pieces of box tops, bus tickets, price tags, maps, advertisements, trademark images, and cellophane wrappers to portray aspects of everyday life?",
+            "Answer": "collage"
+        },
+        {
+            "Question": "People have four of them, two in the upper jaw and two in the lower. Name these pointy, conical teeth between the incisors and first bicuspids.",
+            "Answer": "canines"
+        },
+        {
+            "Question": "In stanza 2 of Casey at the Bat, what do fans think is their only hope for winning the game?",
+            "Answer": "Casey (at the Bat)"
+        },
+        {
+            "Question": "While a summit eruption occurs at the top of a volcano, what kind of eruption occurs on its side?",
+            "Answer": "flank eruption"
+        },
+        {
+            "Question": "Name the sixth planet from the Sun",
+            "Answer": "Saturn"
+        },
+        {
+            "Question": "When colonists refused to provide room and board for British troops in Boston in 1768, they violated what Parliamentary act?",
+            "Answer": "Quartering Act"
+        },
+        {
+            "Question": "The ancient civilization of Phoenicia was adjacent to what sea?",
+            "Answer": "Mediterranean"
+        },
+        {
+            "Question": "About 40 percent of all fresh water in the Earth's lakes and streams is contained in the Great Lakes and what enormous lake in Russia?",
+            "Answer": "Lake Baikal"
+        },
+        {
+            "Question": "What name is missing from this gruesome limerick based on a Greek myth? When ---- in bindings was placed, A vulture pecked right through his waist. Said the bird, it's a treat This liver to eat, But some onions would add to the taste.",
+            "Answer": "Prometheus"
+        },
+        {
+            "Question": "Name the union formed by twenty-six Irish counties in 1921.",
+            "Answer": "Irish Free State "
+        },
+        {
+            "Question": "Most Shakespearean sonnets were written in what meter?",
+            "Answer": "pentameter"
+        },
+        {
+            "Question": "Jet and rocket engines exert a forward reaction force called what?",
+            "Answer": "thrust"
+        },
+        {
+            "Question": "In a court of law, what is this type of question? How do you feel about such terrible, dirty, rotten, and ghastly behavior?",
+            "Answer": "leading question"
+        },
+        {
+            "Question": "Guglielmo Marconi was able to send radio signals from England to Newfoundland by reflecting the radio waves off what region in the atmosphere?",
+            "Answer": "ionosphere"
+        },
+        {
+            "Question": "Overt symptoms are open and observable. What kind of symptoms are concealed, disguised, or not directly observable?",
+            "Answer": "covert"
+        },
+        {
+            "Question": "In 2002, what unit of currency replaced the Dutch guilder, the Greek drachma, the French franc, the Spanish peseta, and the Austrian shilling?",
+            "Answer": "euro"
+        },
+        {
+            "Question": "In the 16th century, what Augustinian monk and ordained priest challenged the belief that salvation could be achieved through good works, denied the Church's claim that God communicated to the world through the pope and the clergy, and said salvation is found through faith alone?",
+            "Answer": "Martin Luther"
+        },
+        {
+            "Question": "In what country is the Ho Chi Minh Mausoleum located?",
+            "Answer": "Vietnam"
+        },
+        {
+            "Question": "A wrongful act against society is a crime. What is the term for a civil wrong against an individual?",
+            "Answer": "tort"
+        },
+        {
+            "Question": "What is the surface area of a two inch cube?",
+            "Answer": "24 square inches"
+        },
+        {
+            "Question": "While bat wings and human arms are homologous, pterodactyl wings and bat wings are what kind of structures?",
+            "Answer": "analogous"
+        },
+        {
+            "Question": "What large cactus of the Sonoran Desert has just a few thick upward-curving branches?",
+            "Answer": "saguaro"
+        },
+        {
+            "Question": "A primary objective of the German forces during the Battle of the Bulge was to recapture what port city in Belgium?",
+            "Answer": "Antwerp"
+        },
+        {
+            "Question": "A circle has how many axes of symmetry?",
+            "Answer": "infinite"
+        },
+        {
+            "Question": "You made some buffalo chip cookies. Your big brother ate 50% of them, and then your big sister ate 50% of what was left, leaving 14 cookies. How many cookies did you make?",
+            "Answer": "56"
+        },
+        {
+            "Question": "What kind of lens has both edges curving inward?",
+            "Answer": "double concave"
+        },
+        {
+            "Question": "In 1840, what British physicist announced the law that the rate at which heat is produced in any part of an electric circuit is measured by the product of the square of the current and the resistance of that part of the circuit?",
+            "Answer": "James Joule"
+        },
+        {
+            "Question": "Use the name of a small watercraft as a pun to pose the question that follows this line. I can paddle a boat.",
+            "Answer": "Canoe?"
+        },
+        {
+            "Question": "Convert -3pi/2 radians to degrees.",
+            "Answer": "-270 degrees"
+        },
+        {
+            "Question": "Which of the two landlocked South American countries is sometimes called the 'Corazon de America'?",
+            "Answer": "Paraguay"
         }
     ]
 }

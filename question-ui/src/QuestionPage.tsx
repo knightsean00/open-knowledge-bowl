@@ -31,7 +31,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
     });
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", marginTop: "3rem", alignItems: "center", wordBreak: "break-all" }}>
+      <div style={{ display: "flex", flexDirection: "column", marginTop: "3rem", alignItems: "center", wordBreak: "normal" }}>
         {
           rankingArray.map((scoreIdx, idx) => {
             if (idx === 0) {
@@ -53,12 +53,12 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
       <div className="row">
         <h3>{selectQuestions.length} Remaining Questions</h3>
       </div>
-      <div style={{ maxWidth: "1200px", display: "flex", flexDirection: "column", marginTop: "5rem", alignItems: "center", wordBreak: "break-all" }}>
+      <div style={{ maxWidth: "1200px", display: "flex", flexDirection: "column", marginTop: "5rem", alignItems: "center", wordBreak: "normal" }}>
         <h1>{selectQuestions[0].Question}</h1>
         <h2 style={{ color: "rgb(149, 92, 175)" }}>{selectQuestions[0].Answer}</h2>
       </div>
       <div className="row">
-        <button className="big" onClick={moveToNextQuestion}>None Correct</button>
+        <button className="big" style={{marginTop: "7rem"}} onClick={moveToNextQuestion}>None Correct</button>
       </div>
       <div className="row" style={{ width: "100vw", marginTop: "3rem" }}>
         {
