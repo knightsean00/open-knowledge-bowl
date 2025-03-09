@@ -254,12 +254,7 @@ function App() {
 
   useEffect(() => {
     const handleGlobalKeyDown = (event: { key: string }) => {
-      if (event.key === "Enter") {
-        setTeamQueue((oldQueue) => [
-          ...oldQueue,
-          `Team ${oldQueue.length + 1}`,
-        ]);
-      } else if (event.key === "Delete") {
+      if (event.key === "Delete") {
         setTeamQueue([]);
       }
     };
