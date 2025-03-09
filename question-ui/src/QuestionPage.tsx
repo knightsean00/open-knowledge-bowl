@@ -76,6 +76,9 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
           })
         }
       </div>
+      <div className="row" style={{marginTop:"15rem"}}>
+        <button onClick={() => setQuestions([])}>End Game</button>
+      </div>
     </div>
   )
 }
