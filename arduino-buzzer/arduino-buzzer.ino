@@ -13,22 +13,21 @@ enum BuzzerState {
 class Buzzer
 {
 public:
-  // This constructor should not be used
-  Buzzer() :
-      sendPin_(0),
-      receivePin_(0),
-      touchThreshold_(0),
-      cs_(CapacitiveSensor(0, 0))
-  {
-  }
-
+  // // This constructor should not be used
   Buzzer(int sendPin, int receivePin, long touchThreshold) :
       sendPin_(sendPin),
       receivePin_(receivePin),
       touchThreshold_(touchThreshold),
       cs_(CapacitiveSensor(sendPin, receivePin))
     {
+      cs_.set_CS_Timeout_Millis(500);
+      cs_.set_CS_AutocaL_Millis(500);
     }
+
+  Buzzer() : Buzzer(0, 0, 0)
+  {
+  }
+
 
   long getSensorValue(int samples)
   {
@@ -206,37 +205,36 @@ bool parseThresholdString(const String& thresholdString, int& index, long& value
   return true;
 }
 
-int numberOfBuzzers = 1;
-long touchThreshold = 800;
-BuzzerSet bs = BuzzerSet(numberOfBuzzers > 0 ? numberOfBuzzers : 1, touchThreshold);
-SerialMode serialMode = SerialMode::LOG_TOUCH;
-// SerialMode serialMode = SerialMode::LOG_SENSOR;
-int samples = 30;
-
 const int MAX_INPUT_BUFFER = 64;
 char inputBuffer[MAX_INPUT_BUFFER];
 int inputIndex = 0; // Current index in the buffer
 
-
+int numberOfBuzzers = 0; // Set to 0 for auto-detection
+long touchThreshold = 100;
+int samples = 10; // Number of samples for buzzer reads
+SerialMode serialMode = SerialMode::LOG_TOUCH;
+// SerialMode serialMode = SerialMode::LOG_SENSOR;
+BuzzerSet* bs;
 void setup() {
   Serial.begin(9600);
-  Serial.println(serialModeToString(serialMode));
 
   // TODO: Fix this code, for some reason we cannot switch to LOG_SENSOR (just -2)
   if (numberOfBuzzers == 0) {
     for (int i = 0; i < (MAX_PIN - pinOffset) / 2; ++i) {
       CapacitiveSensor cs = CapacitiveSensor(pinOffset + (i * 2), pinOffset + (i * 2) + 1);
-      long sensorValue = cs.capacitiveSensor(30);
+      long sensorValue = cs.capacitiveSensor(5);
       if (sensorValue < 0) {
         numberOfBuzzers = i;
         break;
       }
     }
-    bs = BuzzerSet(numberOfBuzzers, touchThreshold);
   }
 
-  // We log at the beginning so the React App knows the Buzzer thresholds
-  bs.logTouchThreshold();
+  bs = new BuzzerSet(numberOfBuzzers, touchThreshold);
+
+  // We log at the beginning so the React App knows the Buzzer thresholds and current mode
+  Serial.println(serialModeToString(serialMode));
+  bs->logTouchThreshold();
 }
 
 void loop() {
@@ -264,7 +262,7 @@ void loop() {
 
         bool result = parseThresholdString(inputString, buzzerIdx, newThresholdValue);
         if (result) {
-          bs.setTouchThreshold(buzzerIdx, newThresholdValue);
+          bs->setTouchThreshold(buzzerIdx, newThresholdValue);
         }
       }
       inputIndex = 0; // Reset for the next input
@@ -273,10 +271,10 @@ void loop() {
 
   switch (serialMode) {
     case SerialMode::LOG_TOUCH:
-      bs.logTouchEvent(samples);
+      bs->logTouchEvent(samples);
       break;
     case SerialMode::LOG_SENSOR:
-      bs.logSensorValue(samples);
+      bs->logSensorValue(samples);
       break;
     default:
       Serial.println(serialModeToString(serialMode));
