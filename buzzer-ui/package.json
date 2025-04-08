@@ -5,11 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "compile": "tsc -b",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/w3c-web-serial": "^1.0.8",
     "motion": "^12.4.3",
     "rc-progress": "^4.0.0",
     "react": "^19.0.0",
