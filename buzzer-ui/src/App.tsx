@@ -3,6 +3,8 @@ import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import BuzzerPage from "./BuzzerPage";
 import AdminPage from "./AdminPage";
 import { input } from "motion/react-client";
+import buzzer from "/buzzer.mp3";
+import useSound from "use-sound";
 
 export enum ArduinoMode {
   LOG_TOUCH,
@@ -20,8 +22,6 @@ const teamNumberToName = (teamIndex: number) => {
 
 const encoder = new TextEncoder();
 
-const buzzerAudio = new Audio("/buzzer.mp3");
-
 function App() {
   const [teamQueue, setTeamQueue] = useState<string[]>([]);
   const [sensorData, setSensorData] = useState<object[]>([]);
@@ -37,6 +37,14 @@ function App() {
 
   const latestArduinoMode = useRef(arduinoMode);
   const latestSensorData = useRef(sensorData);
+
+  const [buzzerPlay] = useSound(buzzer);
+
+  useEffect(() => {
+    if (teamQueue.length > 0) {
+      buzzerPlay();
+    }
+  }, [teamQueue]);
 
   useEffect(() => {
     latestArduinoMode.current = arduinoMode;
@@ -157,7 +165,6 @@ function App() {
             if (oldQueue.includes(teamName)) {
               return oldQueue;
             }
-            buzzerAudio.play();
             return [...oldQueue, teamName];
           });
         }
@@ -257,6 +264,9 @@ function App() {
       if (event.key === "Delete") {
         setTeamQueue([]);
       }
+      // if (event.key === 'Enter') {
+      //   setTeamQueue((oldQueue) => [...oldQueue, `Team ${oldQueue.length + 1}`]);
+      // }
     };
 
     document.addEventListener("keydown", handleGlobalKeyDown);
@@ -265,6 +275,14 @@ function App() {
       document.removeEventListener("keydown", handleGlobalKeyDown);
     };
   }, []);
+
+
+  return (
+    <BuzzerPage
+      teamQueue={teamQueue}
+      requestArduinoMode={requestArduinoMode}
+    />
+  );
 
   if (!isConnected) {
     return (

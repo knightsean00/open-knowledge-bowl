@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import { ArduinoMode } from "./App";
 import { Circle } from "rc-progress";
+import timerEnd from "/timer_end.mp3";
+import useSound from "use-sound";
 
 interface BuzzerPageProps {
   teamQueue: string[];
@@ -15,7 +17,6 @@ const itemVariants = {
   exit: { opacity: 0, x: -20, transition: { duration: 0.3 } }, // Animate to the left on exit
 };
 
-const timerEndAudio = new Audio("/timer_end.mp3");
 
 const BuzzerPage: React.FC<BuzzerPageProps> = ({
   teamQueue,
@@ -26,6 +27,8 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({
   const latestSecondsToAnswer = useRef(secondsToAnswer);
   const [remainingTime, setRemainingTime] = useState(0);
   const [activeTeamIndex, setActiveTeamIndex] = useState(-1);
+
+  const [timerEndSound] = useSound(timerEnd);
 
   useEffect(() => {
     latestTeamQueue.current = teamQueue;
@@ -88,7 +91,7 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({
         setRemainingTime((prevTime) => {
           const newTime = prevTime - 17 >= 0 ? prevTime - 17 : 0;
           if (newTime === 0) {
-            timerEndAudio.play();
+            timerEndSound();
           }
 
           return newTime;
