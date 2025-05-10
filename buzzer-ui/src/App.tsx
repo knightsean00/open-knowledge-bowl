@@ -277,13 +277,6 @@ function App() {
   }, []);
 
 
-  return (
-    <BuzzerPage
-      teamQueue={teamQueue}
-      requestArduinoMode={requestArduinoMode}
-    />
-  );
-
   if (!isConnected) {
     return (
       <div style={{ display: "flex", flexDirection: "column", height: "95vh" }}>
