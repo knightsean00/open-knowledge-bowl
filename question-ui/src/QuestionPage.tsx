@@ -1,30 +1,52 @@
-import { QuestionArray } from './Types';
-import { useState } from 'react';
-
-
+import { QuestionArray, SupplementType } from './Types';
+import { useState, useEffect } from 'react';
+import useSound from 'use-sound';
 
 interface QuestionPageProps {
   teamScores: number[],
   setTeamScores: React.Dispatch<React.SetStateAction<number[]>>
   selectQuestions: QuestionArray,
-  setQuestions: React.Dispatch<React.SetStateAction<QuestionArray>>
+  setQuestions: React.Dispatch<React.SetStateAction<QuestionArray>>,
+  showAnswers: boolean,
+  setShowAnswers: React.Dispatch<React.SetStateAction<boolean>>,
 }
+
 
 const QuestionPage: React.FC<QuestionPageProps> = ({
   teamScores,
   setTeamScores,
   selectQuestions,
   setQuestions,
+  showAnswers,
+  setShowAnswers,
 }) => {
   const [questionNumber, setQuestionNumber] = useState(1);
+  const [soundUrl, setSoundUrl] = useState("https://archive.org/download/78_merry-christmas_korla-pandit-jette-satin-i-berlin_gbia0340413/03%20-%20AVA%20MARIA%20-%20KORLA%20PANDIT%20-%20Schubert.mp3");
+  const [play, { stop }] = useSound(soundUrl);
 
   const moveToNextQuestion = () => {
     setQuestions((old) => {
-      return old.slice(1);
+      const toReturn = old.slice(1);
+      if (toReturn[0].Supplement != undefined && toReturn[0].Supplement.Type == SupplementType.SOUND) {
+        console.log("setting sound to", toReturn[0].Supplement.Data);
+        setSoundUrl(toReturn[0].Supplement.Data);
+      }
+      return toReturn;
     });
 
     setQuestionNumber((old) => old + 1);
   }
+
+  useEffect(() => {
+    console.log("in sound url")
+    if (soundUrl.length > 0) {
+      console.log("playing")
+      play();
+    } else {
+      console.log("stopping")
+      stop();
+    }
+  }, [soundUrl]);
 
   if (selectQuestions.length === 0) {
     const indexedArray = teamScores.map((value, idx) => ({ value, idx }));
@@ -52,6 +74,22 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
     )
   }
 
+  let questionSupplement = (<></>);
+  if (selectQuestions[0].Supplement != undefined) {
+    switch (selectQuestions[0].Supplement.Type) {
+      case SupplementType.PICTURE:
+        questionSupplement = (<img src={selectQuestions[0].Supplement.Data} />);
+        break;
+      case SupplementType.EMBED:
+        questionSupplement = (<iframe height="675px" width="1200px" src={selectQuestions[0].Supplement.Data} style={{ border: "none" }} allow="autoplay" />);
+        break;
+      case SupplementType.SOUND:
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
     <div style={{ display: "flex", flexDirection: "column", marginTop: "3rem", alignItems: "center" }}>
       <div className="row">
@@ -62,12 +100,17 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
       </div>
       <div style={{ maxWidth: "1200px", display: "flex", flexDirection: "column", marginTop: "5rem", alignItems: "center", wordBreak: "normal" }}>
         <h1>{selectQuestions[0].Question}</h1>
-        <h2 style={{ color: "rgb(149, 92, 175)" }}>{selectQuestions[0].Answer}</h2>
+        {questionSupplement}
+        {
+          showAnswers ?
+            <h2 style={{ color: "rgb(149, 92, 175)" }}>{selectQuestions[0].Answer}</h2> :
+            <></>
+        }
       </div>
       <div className="row">
-        <button className="big" style={{marginTop: "7rem"}} onClick={moveToNextQuestion}>None Correct</button>
+        <button className="big" style={{ marginTop: "10rem" }} onClick={moveToNextQuestion}>None Correct</button>
       </div>
-      <div className="row" style={{ width: "100vw", marginTop: "3rem", flexWrap: "wrap" }}>
+      <div className="row" style={{ width: "100%", marginTop: "3rem", flexWrap: "wrap" }}>
         {
           teamScores.map((val, idx) => {
             return (
@@ -83,7 +126,11 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
           })
         }
       </div>
-      <div className="row" style={{marginTop:"15rem"}}>
+      <div className="row" style={{ marginTop: "10rem" }}>
+        <label>Show Answers</label>
+        <input type="checkbox" checked={showAnswers} onClick={() => setShowAnswers(!showAnswers)} />
+      </div>
+      <div className="row">
         <button onClick={() => setQuestions([])}>End Game</button>
       </div>
     </div>

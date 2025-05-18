@@ -13,6 +13,7 @@ function App() {
   const [selectQuestionBank, setSelectQuestionBank] = useState<string[]>([]);
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [numberOfTeams, setNumberOfTeams] = useState(3);
+  const [showAnswers, setShowAnswers] = useState(true);
   const [teamScore, setTeamScore] = useState<number[]>([]);
 
   // Set right before start
@@ -46,11 +47,9 @@ function App() {
     setStart(true);
   }
 
-  console.log(selectQuestions)
-
   if (start) {
     return (
-      <QuestionPage teamScores={teamScore} setTeamScores={setTeamScore} selectQuestions={selectQuestions} setQuestions={setSelectedQuestions}></QuestionPage>
+      <QuestionPage teamScores={teamScore} setTeamScores={setTeamScore} selectQuestions={selectQuestions} setQuestions={setSelectedQuestions} showAnswers={showAnswers} setShowAnswers={setShowAnswers} />
     )
   }
 
@@ -80,6 +79,12 @@ function App() {
         }
       </div>
       <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+        <div style={{ flex: 1, marginTop: "2rem" }} >
+          <label>Show Answers</label>
+          <input type="checkbox" checked={showAnswers} onClick={() => setShowAnswers(!showAnswers)} />
+        </div>
+      </div>
+      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", marginTop: "2rem" }}>
         <p style={{ flex: 1 }}>Total Questions: {totalQuestions}</p>
         <button style={{ flex: 1 }} className="big" onClick={checkStart}>Start</button>
       </div>
