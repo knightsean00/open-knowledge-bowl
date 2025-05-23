@@ -1,0 +1,8 @@
+
+@use "react-h5-audio-player/src/styles.scss" with (
+    $rhap_background-color: rgb(6, 5, 12),
+    $rhap_theme-color: rgb(231, 226, 219),
+    $rhap_bar-color: rgb(149, 92, 175),
+    $rhap_time-color: rgb(231, 226, 219),
+    $rhap_font-family: inherit,
+)
