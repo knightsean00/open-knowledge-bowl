@@ -1,5 +1,6 @@
-import { QuestionArray } from "./Types";
-import { useState } from "react";
+import { QuestionArray, deezerTrackApiPrefix } from "./Types";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import "./progress.scss";
 import AudioPlayer from "react-h5-audio-player";
 
@@ -21,6 +22,34 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
   setShowAnswers,
 }) => {
   const [questionNumber, setQuestionNumber] = useState(1);
+  const [audioURL, setAudioURL] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isAudio = false;
+    if (
+      selectQuestions.length > 0 &&
+      selectQuestions[0].supplement != undefined
+    ) {
+      console.log("Might make a request");
+      if (selectQuestions[0].supplement.type == "SOUND") {
+        setAudioURL(selectQuestions[0].supplement.data);
+        isAudio = true;
+      } else if (selectQuestions[0].supplement.type == "DEEZER") {
+        console.log("Making a request");
+        axios
+          .get(`${deezerTrackApiPrefix}/${selectQuestions[0].supplement.data}`)
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    }
+    if (!isAudio) {
+      setAudioURL(null);
+    }
+  }, [selectQuestions]);
 
   const moveToNextQuestion = () => {
     setQuestions((old) => {
@@ -89,7 +118,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
       case "SOUND":
         questionSupplement = (
           <div style={{ width: "100%", marginBottom: "3rem" }}>
-            <AudioPlayer src={selectQuestions[0].supplement.data} />
+            {audioURL != null ? <AudioPlayer src={audioURL} /> : <></>}
           </div>
         );
         break;

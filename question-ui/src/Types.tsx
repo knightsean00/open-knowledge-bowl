@@ -6,7 +6,9 @@ import { z } from "zod/v4";
 //   EMBED = "EMBED",
 // }
 
-export const SupplementTypeSchema = z.enum(["PICTURE", "SOUND", "EMBED"]);
+export const deezerTrackApiPrefix = "https://api.deezer.com/track"
+
+export const SupplementTypeSchema = z.enum(["PICTURE", "SOUND", "EMBED", "DEEZER"]);
 export type SupplementType = z.infer<typeof SupplementTypeSchema>;
 
 // export type QuestionSupplement = {
