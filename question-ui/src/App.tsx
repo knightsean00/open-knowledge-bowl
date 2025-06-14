@@ -3,8 +3,9 @@ import { ChangeEvent, useEffect, useState } from "react";
 import arrayShuffle from "array-shuffle";
 
 import questions from "./questions.json";
-import { QuestionBank, QuestionArray, QuestionArraySchema } from "./Types";
+import { QuestionBank, QuestionArray, QuestionArraySchema, corsProxy } from "./Types";
 import QuestionPage from "./QuestionPage";
+import axios from "axios";
 
 const questionBank = questions as QuestionBank;
 
@@ -95,6 +96,10 @@ function App() {
       return;
     }
 
+    // Since CORS Proxy is hosted on Render, it needs an initial request to warmup
+    axios.get(corsProxy)
+      .then(() => console.log("CORSProxy is warm"))
+      .catch(err => console.error("Error starting CORSProxy", err));
     setTeamScore(new Array(numberOfTeams).fill(0));
     setSelectedQuestions((old) => {
       const startingQuestions: QuestionArray = old;
