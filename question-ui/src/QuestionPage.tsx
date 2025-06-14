@@ -1,5 +1,6 @@
-import { QuestionArray } from "./Types";
-import { useState } from "react";
+import { QuestionArray, corsProxy, deezerTrackApiPrefix, Question } from "./Types";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import "./progress.scss";
 import AudioPlayer from "react-h5-audio-player";
 
@@ -21,6 +22,61 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
   setShowAnswers,
 }) => {
   const [questionNumber, setQuestionNumber] = useState(1);
+  const [audioURL, setAudioURL] = useState<string | null>(null);
+  const [requestInflight, setRequestInflight] = useState(false);
+
+  const generateRequestUrl = (question: Question) => {
+    if (question.supplement != undefined) {
+      if (question.supplement.type === "DEEZER") {
+        return `${corsProxy}/${deezerTrackApiPrefix}/${question.supplement.data}`;
+      }
+    }
+    return null;
+  }
+
+  const makeAxiosRequest = (url: string | null) => {
+    if (url == null) {
+      return;
+    }
+
+    if (requestInflight) {
+      console.log("Skipping request due to already inflight request");
+      return;
+    }
+
+    console.log("Making a request");
+    axios
+      .get(url)
+      .then((res) => {
+        console.log(res.data);
+        setRequestInflight(false);
+        setAudioURL(res.data["preview"]);
+      })
+      .catch((err) => {
+        setRequestInflight(false);
+        console.error(err);
+      });
+  }
+
+
+  useEffect(() => {
+    let isAudio = false;
+    if (
+      selectQuestions.length > 0 &&
+      selectQuestions[0].supplement != undefined
+    ) {
+      console.log("Might make a request");
+      if (selectQuestions[0].supplement.type == "SOUND") {
+        setAudioURL(selectQuestions[0].supplement.data);
+        isAudio = true;
+      } else if (selectQuestions[0].supplement.type == "DEEZER") {
+        makeAxiosRequest(generateRequestUrl(selectQuestions[0]));
+      }
+    }
+    if (!isAudio) {
+      setAudioURL(null);
+    }
+  }, [selectQuestions]);
 
   const moveToNextQuestion = () => {
     setQuestions((old) => {
@@ -86,10 +142,14 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
           />
         );
         break;
+      case "DEEZER":
       case "SOUND":
         questionSupplement = (
           <div style={{ width: "100%", marginBottom: "3rem" }}>
-            <AudioPlayer src={selectQuestions[0].supplement.data} />
+            {
+              audioURL != null ?
+                <AudioPlayer src={audioURL} /> :
+                <button className="big" style={{ marginTop: "3rem" }} onClick={() => makeAxiosRequest(generateRequestUrl(selectQuestions[0]))}>Request Audio</button>}
           </div>
         );
         break;
