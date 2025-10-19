@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "motion/react";
-import { ArduinoMode } from "./App";
 import { Circle } from "rc-progress";
 import timerEnd from "/timer_end.mp3";
 import useSound from "use-sound";
 
 interface BuzzerPageProps {
   teamQueue: string[];
-  requestArduinoMode: (newMode: ArduinoMode) => void;
   secondsToAnswer?: number;
 }
 
@@ -20,7 +18,6 @@ const itemVariants = {
 
 const BuzzerPage: React.FC<BuzzerPageProps> = ({
   teamQueue,
-  requestArduinoMode,
   secondsToAnswer = 15,
 }) => {
   const latestTeamQueue = useRef(teamQueue);
@@ -161,11 +158,6 @@ const BuzzerPage: React.FC<BuzzerPageProps> = ({
         ) : (
           <div className="progress-number">Waiting for buzzes</div>
         )}
-      </div>
-      <div style={{ flex: 1 }} className="row">
-        <button onClick={() => requestArduinoMode(ArduinoMode.LOG_SENSOR)}>
-          dev mode
-        </button>
       </div>
     </div>
   );
