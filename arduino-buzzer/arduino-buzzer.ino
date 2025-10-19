@@ -1,43 +1,51 @@
+// Changeable constants
+const int NUM_BUZZERS = 3;
+// The time to wait before a buzzer can returned buzzed again in ms
+const unsigned long GRACE_DURATION = 100;
+
+// Less likely to be changed constants
 // First available pin
 const int pinOffset = 2;
 const int MAX_PIN = 13;
 
-enum BuzzerState
-{
-  RELEASED,
-  TOUCHED
-};
 
 class Buzzer
 {
 public:
-  Buzzer(int readPin) : readPin_(readPin)
+  Buzzer(int readPin) : readPin_(readPin), gracePeriod_(0)
   {
     pinMode(readPin_, INPUT);
   }
 
-  Buzzer() : readPin_(0)
+  Buzzer() : readPin_(0), gracePeriod_(0)
   {
   }
 
-  // Returns if the buzzer just got touched (changed from its initial state)
   bool gotTouched()
   {
-    // TODO: Add debouncing?
+    // TODO: Potentially do sampling to reduce errors
+    unsigned long now = millis();
+    if (now < gracePeriod_) {
+      return false;
+    }
+
     int touchState = digitalRead(readPin_);
-    return touchState == HIGH;
+    if (touchState == HIGH) {
+      gracePeriod_ = now + GRACE_DURATION;
+      return true;
+    }
+    return false;
   }
 
 private:
   int readPin_;
-
-  // BuzzerState state_ = BuzzerState::RELEASED;
+  unsigned long gracePeriod_;
 };
 
 class BuzzerSet
 {
 public:
-  BuzzerSet(int totalBuzzers, long defaultThreshold) : totalBuzzers_(totalBuzzers)
+  BuzzerSet(int totalBuzzers) : totalBuzzers_(totalBuzzers)
   {
     buzzers_ = new Buzzer[totalBuzzers_]; // Allocate memory for pointers
 
@@ -76,17 +84,13 @@ private:
   Buzzer *buzzers_;
 };
 
-int numberOfBuzzers = 1;
-long touchThreshold = 100;
-BuzzerSet *bs;
+BuzzerSet bs(NUM_BUZZERS);
 void setup()
 {
   Serial.begin(9600);
-
-  bs = new BuzzerSet(numberOfBuzzers, touchThreshold);
 }
 
 void loop()
 {
-  bs->logTouchEvent();
+  bs.logTouchEvent();
 }
