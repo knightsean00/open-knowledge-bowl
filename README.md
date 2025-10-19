@@ -1,4 +1,4 @@
-# open-knowledge-bowl
+# open-knowledge-bowl V2
 
 ## What is Knowledge Bowl?
 
@@ -7,20 +7,35 @@ Knowledge Bowl is a quiz competition that is popular in Washington state. These 
 This repository is meant to make it easier for everyone to build their own buzzers for a relatively cheap cost!
 
 ## Building Your Own
+
 ### Materials Needed
 - Metal Bar
 - Arduino (or some microcontroller)
-- Speaker wires
-- High ohm resistors (I used two 1 mega ohm resistors)
+- CAT Wires (I used CAT5)
+- TTP223 Sensors (purchaseable on Amazon)
+- Header pins
 - Electrical tape
+- JST Connectors
+- Wire Crimper
+- Soldering Iron
+- Solder
+- Cardboard
+- Breadboard
+- Dupont / Jumper wires
 
-In total, these materials can be purchased for less than <$50. Normal Quiz Bowl and Knowledge Bowl systems can cost >$400, not including the continued maintenance needed for the buttons, calibrations, etc.
+In total, these materials can be purchased for less than <$75. Normal Quiz Bowl and Knowledge Bowl systems can cost >$400, not including the continued maintenance needed for the buttons, calibrations, etc.
 
-### Procedures
-1. Strip the speaker wire and attach the positive and negative ends to the same metal bar (using electrical tape or some kind of adhesive). We are using the bar as a capacitive sensor, and, as such, will always have current running through it. There will be no closing of circuits.
-2. Connect the positive and negative ends of the other side of the speaker wire to a resistor before connecting the circuit to two of the digital pins of the Arduino (digital pins should be sequential starting at pin 2). We need a strong resistor to make it easier to read capacitance values and to protect the microcontroller from the current.
-3. Install the `arduino-buzzer.ino` onto the microcontroller and read from serial. The program should automatically detect how many bars are connected and should be put into `LOG_TOUCH` mode. You can switch the modes by typing input into serial. The two available modes are `MODE:LOG_TOUCH` (logs which buzzer was touched) and `MODE:LOG_SENSOR` (logs sensor values for each buzzer, useful for debugging).
-4. When the buzzer is working as expected, you can visit the [buzzer-ui](https://knowledge-buzzer.pages.dev/) website or start it locally (instructions in `buzzer-ui`). By default, the website will display `LOG_TOUCH` mode, but if you click on `DEV` at the bottom, you can see a graph of the sensitivity of each buzzer and adjust thresholds on a per-bar basis.
-5. You can find a score card and pre-made questions at a pre-hosted [question-ui](https://open-knowledge-bowl.pages.dev/) website or start it locally (instructions in `questions-ui`)
+### Procedures (makes three sensor bars)
+1. Take the TTP223 sensor and solder header pins to the VCC, I/O, and GND. Please note that you want the sensor side facing the metal bar. Therefore, I have the long side of the header pins facing away from the sensor side so that the wire can be plugged in from above the metal bar. If you would prefer below, feel free to, but you might encounter problems with gravity straining the connection later on.
+2. Cut out a piece of single-walled cardboard that is roughly the shape of the TTP223 sensor. On one of the short sides, make a small cutout to allow the header pin nubs (the side you soldered) to slide in. The cardboard will allow us to reduce the sensitivity of the TTP223 sensor and only detect touches, not proximity to the bar. Feel free to adjust the number / thickness of the cardboard layers based on the sensitivity of your sensor. You can also adjust the sensor by soldering a capacitor, but that makes the project slightly more complex.
+3. Cover up the header pin nubs with electrical tape, then tightly tape the TTP223 + cardboard bundled onto the metal bar with the sensor side down.
+4. Cut three separate lengths of CAT5 cable (I use ~5m per wire).
+5. Strip the CAT5 cable and crimp the wires to be fitted into a JST female connector. One solid wire (I use brown) for VCC, another solid wire for I/O (I use green), and the two corresponding stripped color wires for GND (I stripped brown + stripped green). Do this for each end of each wire (2 sides x 3 wires = 6 total)
+6. Plug one end of the CAT5 cables onto the header pins of the TTP223 sensors and plug the other ends into the Arduino. Note that to parallelize the 5V + GND on the microcontroller, you may need to use a breadboard + Dupont/jumper wires.
+7. Install the `arduino-buzzer.ino` onto the microcontroller and read from serial. The program should automatically detect how many bars are connected and should be put into `LOG_TOUCH` mode. You can switch the modes by typing input into serial. The two available modes are `MODE:LOG_TOUCH` (logs which buzzer was touched) and `MODE:LOG_SENSOR` (logs sensor values for each buzzer, useful for debugging).
+8. When the buzzer is working as expected, you can visit the [buzzer-ui](https://knowledge-buzzer.pages.dev/) website or start it locally (instructions in `buzzer-ui`). By default, the website will display `LOG_TOUCH` mode, but if you click on `DEV` at the bottom, you can see a graph of the sensitivity of each buzzer and adjust thresholds on a per-bar basis.
+9. You can find a score card and pre-made questions at a pre-hosted [question-ui](https://open-knowledge-bowl.pages.dev/) website or start it locally (instructions in `questions-ui`)
 
 Still have questions? Drop them as an issue in this repository and I will do my best to get to them!
+
+If you are interested in learning more about a cheaper, but less reliable solution, visit the [V1 branch of the repository](https://github.com/knightsean00/open-knowledge-bowl/tree/v1)!

@@ -6,12 +6,6 @@ import { input } from "motion/react-client";
 import buzzer from "/buzzer.mp3";
 import useSound from "use-sound";
 
-export enum ArduinoMode {
-  LOG_TOUCH,
-  LOG_SENSOR,
-  UNKNOWN,
-}
-
 const teamNumberToName = (teamIndex: number) => {
   return `Team ${teamIndex + 1}`;
 };
@@ -24,19 +18,10 @@ const encoder = new TextEncoder();
 
 function App() {
   const [teamQueue, setTeamQueue] = useState<string[]>([]);
-  const [sensorData, setSensorData] = useState<object[]>([]);
-  const [buzzerThresholds, setBuzzerThresholds] = useState<number[]>([]);
-  const [arduinoMode, setArduinoMode] = useState<ArduinoMode>(
-    ArduinoMode.LOG_TOUCH
-  );
 
   const [port, setPort] = useState(null);
   const [reader, setReader] = useState(null);
-  const [writer, setWriter] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
-
-  const latestArduinoMode = useRef(arduinoMode);
-  const latestSensorData = useRef(sensorData);
 
   const [buzzerPlay] = useSound(buzzer);
 
@@ -45,50 +30,6 @@ function App() {
       buzzerPlay();
     }
   }, [teamQueue]);
-
-  useEffect(() => {
-    latestArduinoMode.current = arduinoMode;
-
-    switch (arduinoMode) {
-      case ArduinoMode.LOG_SENSOR:
-        setTeamQueue([]);
-        break;
-      case ArduinoMode.LOG_TOUCH:
-        break;
-    }
-  }, [arduinoMode]);
-
-  const sendSerial = async (text: string) => {
-    if (writer != null) {
-      await writer.write(encoder.encode(text + "\n"));
-    } else {
-      console.error("WRITER IS NULL, CANNOT WRITE DATA");
-    }
-  };
-
-  const requestArduinoMode = async (requestedMode: ArduinoMode) => {
-    switch (requestedMode) {
-      case ArduinoMode.LOG_SENSOR:
-        await sendSerial("MODE:LOG_SENSOR");
-        break;
-      case ArduinoMode.LOG_TOUCH:
-        await sendSerial("MODE:LOG_TOUCH");
-        break;
-      default:
-        console.error("UNKNOWN MODE TO SEND");
-        break;
-    }
-  };
-
-  const setNewThreshold = async (buzzerIdx: number, threshold: number) => {
-    if (buzzerIdx < 0 || threshold < 0) {
-      console.error(
-        "CANNOT SEND THRESHOLD WITH INDEX BELOW 0 OR THRESHOLD BELOW 0"
-      );
-    } else {
-      await sendSerial(`THRESHOLD:${buzzerIdx},${threshold}`);
-    }
-  };
 
   const connectToSerial = async () => {
     try {
@@ -106,8 +47,6 @@ function App() {
 
       const reader = port.readable.getReader();
       setReader(reader);
-      const writer = port.writable.getWriter();
-      setWriter(writer);
 
       // Start reading loop
       readLoop(reader);
@@ -117,79 +56,19 @@ function App() {
   };
 
   const handleSerialRead = (inputString: string) => {
-    if (inputString.startsWith("MODE:")) {
-      switch (inputString) {
-        case "MODE:LOG_TOUCH":
-          setArduinoMode(ArduinoMode.LOG_TOUCH);
-          break;
-        case "MODE:LOG_SENSOR":
-          setArduinoMode(ArduinoMode.LOG_SENSOR);
-          break;
-        default:
-          setArduinoMode(ArduinoMode.UNKNOWN);
-          break;
-      }
-    } else if (inputString.startsWith("THRESHOLD:")) {
-      const thresholdSplit = inputString.split(":").join(",").split(",");
-      if (thresholdSplit.length != 3) {
-        return;
-      }
-      const buzzerIdx = parseInt(thresholdSplit[1]);
-      const threshold = parseInt(thresholdSplit[2]);
-
-      if (buzzerIdx < 0 || threshold < 0) {
-        return;
-      }
-
-      setBuzzerThresholds((oldThreshold) => {
-        const newThresholds = [...oldThreshold];
-
-        // This could be more efficient
-        while (newThresholds.length <= buzzerIdx) {
-          newThresholds.push(0);
-        }
-
-        newThresholds[buzzerIdx] = threshold;
-        return newThresholds;
-      });
-    } else if (inputString.startsWith("ERROR:")) {
-      console.error(inputString);
-    } else if (latestArduinoMode.current === ArduinoMode.LOG_TOUCH) {
-      const buzzedTeams = inputString.split(";");
-      buzzedTeams.sort(() => Math.random() - 0.5);
-      // console.log(buzzedTeams);
-      for (const team of buzzedTeams) {
-        if (team.length > 0) {
-          const teamName = teamNumberToName(parseInt(team));
-          setTeamQueue((oldQueue) => {
-            if (oldQueue.includes(teamName)) {
-              return oldQueue;
-            }
-            return [...oldQueue, teamName];
-          });
-        }
-      }
-    } else if (latestArduinoMode.current === ArduinoMode.LOG_SENSOR) {
-      const buzzerData = inputString.split(";").reduce((obj, value, idx) => {
-        if (value.length > 0) {
-          obj[idx.toString()] = parseInt(value);
-        }
-        return obj;
-      }, {});
-      const currentTime = Date.now();
-      buzzerData["time"] = currentTime;
-
-      latestSensorData.current.push(buzzerData);
-
-      if (latestSensorData.current.length > 500) {
-        latestSensorData.current.shift();
-      }
-
-      if (
-        latestSensorData.current.length > 0 &&
-        currentTime - latestSensorData.current[0]["time"] > 50
-      ) {
-        setSensorData([...latestSensorData.current]);
+    // Assume all reads must be buzzes
+    const buzzedTeams = inputString.split(";");
+    buzzedTeams.sort(() => Math.random() - 0.5);
+    // console.log(buzzedTeams);
+    for (const team of buzzedTeams) {
+      if (team.length > 0) {
+        const teamName = teamNumberToName(parseInt(team));
+        setTeamQueue((oldQueue) => {
+          if (oldQueue.includes(teamName)) {
+            return oldQueue;
+          }
+          return [...oldQueue, teamName];
+        });
       }
     }
   };
@@ -239,10 +118,6 @@ function App() {
       await reader.cancel(); // Stop the reader
     }
 
-    if (writer) {
-      await writer.cancel();
-    }
-
     if (port) {
       await port.close();
       setPort(null);
@@ -257,7 +132,7 @@ function App() {
         disconnectFromSerial();
       }
     };
-  }, [port, reader, writer]);
+  }, [port, reader]);
 
   useEffect(() => {
     const handleGlobalKeyDown = (event: { key: string }) => {
@@ -289,26 +164,11 @@ function App() {
     );
   }
 
-  switch (arduinoMode) {
-    case ArduinoMode.LOG_TOUCH:
-      return (
-        <BuzzerPage
-          teamQueue={teamQueue}
-          requestArduinoMode={requestArduinoMode}
-        />
-      );
-    case ArduinoMode.LOG_SENSOR:
-      return (
-        <AdminPage
-          requestArduinoMode={requestArduinoMode}
-          sensorData={sensorData}
-          buzzerThresholds={buzzerThresholds}
-          setBuzzerThreshold={setNewThreshold}
-        />
-      );
-    default:
-      return <h1>WARNING: ARDUINO IN UNKNOWN MODE</h1>;
-  }
+    return (
+      <BuzzerPage
+        teamQueue={teamQueue}
+      />
+    );
 }
 
 export default App;
