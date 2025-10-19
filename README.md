@@ -1,4 +1,4 @@
-# open-knowledge-bowl
+# open-knowledge-bowl Version 1.0.0
 
 ## What is Knowledge Bowl?
 
