@@ -284,5 +284,625 @@
             "question": "Which of the two landlocked South American countries is sometimes called the 'Corazon de America'?",
             "answer": "Paraguay"
         }
+    ],
+    "2025-06-12_1": [
+        {
+            "question": "What is the name of the Oscar-winnning film in which this song appears?",
+            "answer": "La La Land",
+            "supplement": {
+                "data": "137727915",
+                "type": "DEEZER"
+            }
+        },
+        {
+            "question": "Which streaming service released the documentary series 'Tiger King' during the COVID-19 pandemic?",
+            "answer": "Netflix"
+        },
+        {
+            "question": "Which enzyme, vital for DNA replication, is responsible for unwinding the DNA double helix?",
+            "answer": "DNA helicase"
+        },
+        {
+            "question": "What phenomenon describes the apparent shift in frequency of a wave due to the relative motion between the source and the observer?",
+            "answer": "Doppler effect"
+        },
+        {
+            "question": "Which layer of Earth's atmosphere is primarily responsible for absorbing most of the Sun's ultraviolet radiation?",
+            "answer": "Stratosphere"
+        },
+        {
+            "question": "A rare coin collection appreciates by 15% in its first year, then depreciates by 5% in its second year. If its initial value was £1000, what is its value after two years?",
+            "answer": "£1092.50"
+        },
+        {
+            "question": "A cylindrical tank has a radius of 2 meters and a height of 5 meters. If it's filled to 75% capacity, what volume of water does it contain? (Use 3.14 as pi)",
+            "answer": "47.1 cubic meters"
+        },
+        {
+            "question": "What is the sum of all integers from 1 to 100, inclusive?",
+            "answer": "5050"
+        },
+        {
+            "question": "Which author penned 'One Hundred Years of Solitude,' a seminal work of magical realism?",
+            "answer": "Gabriel García Márquez"
+        },
+        {
+            "question": "What literary device involves an interruption of the chronological sequence of events to insert past events?",
+            "answer": "Flashback"
+        },
+        {
+            "question": "Identify the author of the quote: \"It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.\"",
+            "answer": "Jane Austen"
+        },
+        {
+            "question": "From which epic poem does the line 'Sing, goddess, the anger of Peleus' son Achilles' originate?",
+            "answer": "The Iliad"
+        },
+        {
+            "question": "Who was the last pharaoh of ancient Egypt, who also famously had relationships with Julius Caesar and Mark Antony?",
+            "answer": "Cleopatra VII"
+        },
+        {
+            "question": "The Treaty of Versailles formally ended which major global conflict?",
+            "answer": "World War I"
+        },
+        {
+            "question": "Which influential ancient Greek philosopher was the teacher of Alexander the Great?",
+            "answer": "Aristotle"
+        },
+        {
+            "question": "What was the name of the intellectual and cultural movement in the 18th century that emphasized reason and individualism?",
+            "answer": "The Enlightenment"
+        },
+        {
+            "question": "In what year did the Berlin Wall fall, symbolizing a major step towards the end of the Cold War?",
+            "answer": "1989"
+        },
+        {
+            "question": "Name this song",
+            "answer": "Strawberry Fields Forever",
+            "supplement": {
+                "data": "116348294",
+                "type": "DEEZER"
+            }
+        },
+        {
+            "question": "Which Dutch artist is renowned for his surrealist works featuring impossible constructions and tessellations, such as 'Relativity'?",
+            "answer": "M.C. Escher"
+        },
+        {
+            "question": "What is the longest river in South America?",
+            "answer": "Amazon River"
+        },
+        {
+            "question": "Which African country is completely surrounded by South Africa?",
+            "answer": "Lesotho"
+        },
+        {
+            "question": "What mountain peak in the Alps once appeared on the packaging of Toblerone chocolate?",
+            "answer": "Matterhorn"
+        },
+        {
+            "question": "The Strait of Gibraltar connects which two major bodies of water?",
+            "answer": "Atlantic Ocean and Mediterranean Sea"
+        },
+        {
+            "question": "Which Canadian province is the only officially bilingual province?",
+            "answer": "New Brunswick"
+        },
+        {
+            "question": "Which TV show is set in the fictional city of Westeros and features noble families vying for control of the Iron Throne?",
+            "answer": "Game of Thrones"
+        },
+        {
+            "question": "What is the geological term for a large, basin-shaped depression formed by the collapse of a volcano's magma chamber after an eruption?",
+            "answer": "Caldera"
+        },
+        {
+            "question": "Who authored the play 'Waiting for Godot,' a seminal work of absurdist theatre?",
+            "answer": "Samuel Beckett"
+        },
+        {
+            "question": "Identify the work from which this line is taken: \"All animals are equal, but some animals are more equal than others.\"",
+            "answer": "Animal Farm"
+        },
+        {
+            "question": "The Battle of Hastings in 1066 led to the Norman Conquest of England. Who was the victorious Norman leader?",
+            "answer": "William the Conqueror"
+        },
+        {
+            "question": "Which large freshwater lake in North America is shared by the United States and Canada and is the largest by surface area in the Great Lakes system?",
+            "answer": "Lake Superior"
+        },
+        {
+            "question": "Who won the Academy Award for Best Director for the film 'Nomadland' in 2021?",
+            "answer": "Chloé Zhao"
+        },
+        {
+            "question": "What is the name of the composer who wrote this song",
+            "answer": "Claude Debussy",
+            "supplement": {
+                "data": "106467204",
+                "type": "DEEZER"
+            }
+        },
+        {
+            "question": "In what famous Disney/Pixar film does this song appear?",
+            "answer": "Ratatouille",
+            "supplement": {
+                "data": "5167605",
+                "type": "DEEZER"
+            }
+        },
+        {
+            "question": "What is the capital city of Mongolia?",
+            "answer": "Ulaanbaatar"
+        },
+        {
+            "question": "What is the name of the supercontinent that existed during the late Paleozoic and early Mesozoic eras, encompassing almost all the Earth's landmass?",
+            "answer": "Pangaea"
+        }
+    ],
+    "2025-06-12_2": [
+        {
+            "question": "What phenomenon describes the bending of light as it passes from one medium to another?",
+            "answer": "Refraction"
+        },
+        {
+            "question": "Which type of rock is formed from the cooling and solidification of molten magma or lava?",
+            "answer": "Igneous rock"
+        },
+        {
+            "question": "A fair six-sided die is rolled twice. What is the probability of rolling an even number on the first roll AND a number greater than 4 on the second roll?",
+            "answer": "1/6"
+        },
+        {
+            "question": "What is the value of 'x' if log base 2 of x = 5?",
+            "answer": "32"
+        },
+        {
+            "question": "Which American author wrote 'The Catcher in the Rye,' a controversial novel about teenage rebellion and alienation?",
+            "answer": "J.D. Salinger"
+        },
+        {
+            "question": "In Shakespeare's 'Hamlet,' who is Ophelia's father?",
+            "answer": "Polonius"
+        },
+        {
+            "question": "From which novel does the line: \"It was the best of times, it was the worst of times\" originate?",
+            "answer": "A Tale of Two Cities"
+        },
+        {
+            "question": "Who was the Roman emperor who made Christianity the state religion of the Roman Empire in the 4th century AD?",
+            "answer": "Theodosius I"
+        },
+        {
+            "question": "The Magna Carta was signed in what year?",
+            "answer": "1215"
+        },
+        {
+            "question": "Who was the leader of the Soviet Union during the Cuban Missile Crisis?",
+            "answer": "Nikita Khrushchev"
+        },
+        {
+            "question": "In networking, what does the acronym DNS stand for?",
+            "answer": "Domain Name System"
+        },
+        {
+            "question": "Which Spanish artist is considered one of the pioneers of Cubism, known for works like 'Les Demoiselles d'Avignon'?",
+            "answer": "Pablo Picasso"
+        },
+        {
+            "question": "What is the capital city of New Zealand?",
+            "answer": "Wellington"
+        },
+        {
+            "question": "What is the name of the mountain range that forms a natural border between France and Spain?",
+            "answer": "Pyrenees"
+        },
+        {
+            "question": "The Suez Canal connects which two major bodies of water?",
+            "answer": "Mediterranean Sea and Red Sea"
+        },
+        {
+            "question": "What hot desert spans parts of California, Arizona, and Mexico and is the largest hot desert in North America?",
+            "answer": "Sonoran Desert"
+        },
+        {
+            "question": "What is the primary function of chlorophyll in plants?",
+            "answer": "Photosynthesis"
+        },
+        {
+            "question": "Which organelle is often referred to as the 'powerhouse of the cell' due to its role in ATP production?",
+            "answer": "Mitochondria"
+        },
+        {
+            "question": "What is the chemical symbol for gold?",
+            "answer": "Au"
+        },
+        {
+            "question": "What is the state of matter characterized by a definite volume and a definite shape?",
+            "answer": "Solid"
+        },
+        {
+            "question": "What Italian city is main setting of the famous play Romeo and Juliet?",
+            "answer": "Verona"
+        },
+        {
+            "question": "In the hit film Avengers: Infinity War, what was the last Infinity stone that Thanos collected?",
+            "answer": "Mind Stone"
+        },
+        {
+            "question": "What surgical term means to provide an alternate or additional route for blood flow?",
+            "answer": "bypass"
+        },
+        {
+            "question": "Given f(x) = x squared + 2x -1, find f(-5).",
+            "answer": "14"
+        },
+        {
+            "question": "Name the tale by Robert Louis Stevenson from which this line was taken. Man is not truly one, but truly two.",
+            "answer": "Dr. Jekyll and Mr. Hyde"
+        },
+        {
+            "question": "Name the sixth planet from the Sun",
+            "answer": "Saturn"
+        },
+        {
+            "question": "What name is missing from this gruesome limerick based on a Greek myth? When ---- in bindings was placed, A vulture pecked right through his waist. Said the bird, it's a treat This liver to eat, But some onions would add to the taste.",
+            "answer": "Prometheus"
+        },
+        {
+            "question": "Guglielmo Marconi was able to send radio signals from England to Newfoundland by reflecting the radio waves off what region in the atmosphere?",
+            "answer": "ionosphere"
+        },
+        {
+            "question": "You made some buffalo chip cookies. Your big brother ate 50% of them, and then your big sister ate 50% of what was left, leaving 14 cookies. How many cookies did you make?",
+            "answer": "56"
+        },
+        {
+            "question": "Use the name of a small watercraft as a pun to pose the question that follows this line. I can paddle a boat.",
+            "answer": "Canoe?"
+        },
+        {
+            "question": "Which of the two landlocked South American countries is sometimes called the 'Corazon de America'?",
+            "answer": "Paraguay"
+        },
+        {
+            "question": "What famous musical artist, often dubbed the King of Rock and Roll, likely died an early death due to a drug habit they picked during their draft to the US Army?",
+            "answer": "Elvis Presley"
+        },
+        {
+            "question": "What is the name of this song?",
+            "answer": "As It Was",
+            "supplement": {
+                "data": "1703487577",
+                "type": "DEEZER"
+            }
+        },
+        {
+            "question": "What is the name of the band that composed this song?",
+            "answer": "Smash Mouth",
+            "supplement": {
+                "data": "917717",
+                "type": "DEEZER"
+            }
+        },
+        {
+            "question": "What is the name of this song composed by Anthony Newley and Leslie Bricusse?",
+            "answer": "Feeling Good",
+            "supplement": {
+                "data": "709830092",
+                "type": "DEEZER"
+            }
+        }
+    ],
+    "2025-06-12_3": [
+        {
+            "question": "Which type of cell lacks a nucleus and other membrane-bound organelles?",
+            "answer": "Prokaryotic cell"
+        },
+        {
+            "question": "What is the pH value of a neutral solution?",
+            "answer": "7"
+        },
+        {
+            "question": "What chemical formula represents the gas that is the most abundant in Earth's atmosphere?",
+            "answer": "N_2 (Do not accept Nitrogen)"
+        },
+        {
+            "question": "A recipe calls for a 5:12 ratio of flour to sugar. If you use 25 cups of flour, how many cups of sugar do you need?",
+            "answer": "60 cups"
+        },
+        {
+            "question": "Convert 25 degrees Celcius to the Farenheit, often known as the superior form of temperature measurement.",
+            "answer": "77 Farenheit"
+        },
+        {
+            "question": "Identify the poet who wrote: \"Two roads diverged in a yellow wood, And sorry I could not travel both.\"",
+            "answer": "Robert Frost"
+        },
+        {
+            "question": "Which ancient Roman leader was assassinated on the Ides of March?",
+            "answer": "Julius Caesar"
+        },
+        {
+            "question": "Which empire was ruled by Genghis Khan?",
+            "answer": "Mongol Empire"
+        },
+        {
+            "question": "What was the name of the ship that brought the Pilgrims to America in 1620?",
+            "answer": "Mayflower"
+        },
+        {
+            "question": "What is the name of this song?",
+            "answer": "Shape of You",
+            "supplement": {
+                "data": "142986204",
+                "type": "DEEZER"
+            }
+        },
+        {
+            "question": "This song is from what studio album?",
+            "answer": "HIT ME HARD AND SOFT",
+            "supplement": {
+                "data": "2801558052",
+                "type": "DEEZER"
+            }
+        },
+        {
+            "question": "This song was written for what famous British spy film?",
+            "answer": "Skyfall",
+            "supplement": {
+                "data": "82715364",
+                "type": "DEEZER"
+            }
+        },
+        {
+            "question": "What is the name of this Jazz standard?",
+            "answer": "Fly Me To The Moon",
+            "supplement": {
+                "data": "71483067",
+                "type": "DEEZER"
+            }
+        },
+        {
+            "question": "What is the capital city of Brazil?",
+            "answer": "Brasília"
+        },
+        {
+            "question": "Which large desert covers much of North Africa?",
+            "answer": "Sahara Desert"
+        },
+        {
+            "question": "What is the process by which cells divide to produce two identical daughter cells?",
+            "answer": "Mitosis"
+        },
+        {
+            "question": "Which organ in the human body produces insulin?",
+            "answer": "Pancreas"
+        },
+        {
+            "question": "What organ, which was once considered a vestigial organ, has recently been found to serve as a safe house for beneficial gut bacteria?",
+            "answer": "Appendix"
+        },
+        {
+            "question": "What type of chemical bond involves the sharing of electrons between atoms?",
+            "answer": "Covalent bond"
+        },
+        {
+            "question": "Who was the last Tsar of Russia, overthrown during the Russian Revolution?",
+            "answer": "Nicholas II"
+        },
+        {
+            "question": "The signing of the Declaration of Independence in 1776 occurred in which American city?",
+            "answer": "Philadelphia"
+        },
+        {
+            "question": "What is the smallest continent by land area?",
+            "answer": "Australia / Oceania"
+        },
+        {
+            "question": "Which streaming service is known for its original series 'Severance'?",
+            "answer": "Apple TV+"
+        },
+        {
+            "question": "Which critically acclaimed film, directed by Bong Joon-ho, made history in 2020 by becoming the first non-English language film to win the Academy Award for Best Picture?",
+            "answer": "Parasite"
+        },
+        {
+            "question": "If a shirt costs $30 after a 20% discount, what was its original price?",
+            "answer": "$37.50"
+        },
+        {
+            "question": "Which author is known for his dystopian novel 'Brave New World'?",
+            "answer": "Aldous Huxley"
+        },
+        {
+            "question": "Identify the author who wrote: \"All happy families are alike; each unhappy family is unhappy in its own way.\"",
+            "answer": "Leo Tolstoy"
+        },
+        {
+            "question": "What 19th-century wars between China and Western powers was caused by opium trade?",
+            "answer": "Opium Wars"
+        },
+        {
+            "question": "The assasination of what person is generally considered to have started World War I?",
+            "answer": "Archduke Franz Ferdinand"
+        },
+        {
+            "question": "Who was the first woman to win a Nobel Prize?",
+            "answer": "Marie Curie"
+        },
+        {
+            "question": "In what year did humans first land on the moon?",
+            "answer": "1969"
+        },
+        {
+            "question": "What is the highest mountain in North America?",
+            "answer": "Mount McKinley / Denali"
+        },
+        {
+            "question": "Which critically acclaimed animated film, known for its intricate storytelling and exploration of complex themes like grief and memory, won the Academy Award for Best Animated Feature in 2015?",
+            "answer": "Inside Out"
+        },
+        {
+            "question": "Which popular online multiplayer video game, known for its cartoonish battle royale format and frequent collaborations with major franchises, launched in 2017 and quickly became a global phenomenon?",
+            "answer": "Fortnite"
+        },
+        {
+            "question": "In what decade did the Titanic sink?",
+            "answer": "1910s"
+        }
+    ],
+    "2025-06-12_4": [
+        {
+            "question": "What famous computer scientist popularized the term software engineer while working on the Apollo space missions?",
+            "answer": "Margaret Hamilton"
+        },
+        {
+            "question": "What is the chemical symbol for table salt?",
+            "answer": "Na Cl"
+        },
+        {
+            "question": "What type of cloud is typically thin, wispy, and found at high altitudes, often indicating fair weather?",
+            "answer": "Cirrus"
+        },
+        {
+            "question": "Which collection of stories by Geoffrey Chaucer includes 'The Wife of Bath's Tale'?",
+            "answer": "The Canterbury Tales"
+        },
+        {
+            "question": "Which ancient civilization built the Colosseum?",
+            "answer": "Roman Empire"
+        },
+        {
+            "question": "What major historical event began in 1789 with the storming of the Bastille?",
+            "answer": "French Revolution"
+        },
+        {
+            "question": "What is the name of this song compomsed by Jim Croce?",
+            "answer": "Time in a Bottle",
+            "supplement": {
+                "data": "143040700",
+                "type": "DEEZER"
+            }
+        },
+        {
+            "question": "What is the name of this song by The Weeknd?",
+            "answer": "Blinding Lights",
+            "supplement": {
+                "data": "908604612",
+                "type": "DEEZER"
+            }
+        },
+        {
+            "question": "What is the largest lake in Africa?",
+            "answer": "Lake Victoria"
+        },
+        {
+            "question": "What is the longest river in Asia?",
+            "answer": "Yangzi River"
+        },
+        {
+            "question": "Which multi-award-winning actress, known for her versatile performances in films like 'The Devil Wears Prada' and 'Mamma Mia!', has received a record 21 Academy Award nominations?",
+            "answer": "Meryl Streep"
+        },
+        {
+            "question": "Which online social media platform, primarily known for its user-generated short-form video content, launched in 2014 and was acquired by ByteDance to be merged into their app, TikTok?",
+            "answer": "Musical.ly"
+        },
+        {
+            "question": "Which organelle is responsible for packaging and modifying proteins for secretion or delivery to other organelles?",
+            "answer": "Golgi body/apparatus"
+        },
+        {
+            "question": "What is the chemical formula for glucose?",
+            "answer": "C_6 H_12 O_6"
+        },
+        {
+            "question": "What is the SI unit of force?",
+            "answer": "Newton"
+        },
+        {
+            "question": "A store increases the price of an item by 10%, then decreases the new price by 10%. If the original price was $50, what is the final price?",
+            "answer": "$49.50"
+        },
+        {
+            "question": "What is the literary term for a character who contrasts with another character, typically the protagonist, to highlight particular qualities of the other character?",
+            "answer": "Foil"
+        },
+        {
+            "question": "Which play by Arthur Miller explores themes such as the American Dream through the character Willy Loman?",
+            "answer": "Death of a Salesman"
+        },
+        {
+            "question": "From which existential philosopher does the quote: \"Man is condemned to be free\" originate?",
+            "answer": "Jean-Paul Sartre"
+        },
+        {
+            "question": "What ancient writing system developed by the Sumerians in 3400 to 3000 BCE is the earliest known writing system?",
+            "answer": "Cuneiform"
+        },
+        {
+            "question": "What was the name of the ship on which Charles Darwin made his famous voyage, leading to his theory of evolution?",
+            "answer": "HMS Beagle"
+        },
+        {
+            "question": "Which Italian Renaissance artist is famous for the fresco 'The School of Athens' in the Vatican?",
+            "answer": "Raphael"
+        },
+        {
+            "question": "Which large river flows through Paris?",
+            "answer": "Seine River"
+        },
+        {
+            "question": "What is largely considered to be the first commercially successful video game?",
+            "answer": "Pong"
+        },
+        {
+            "question": "What major portion of the human brain is largely responsible for motor control?",
+            "answer": "Cerebellum"
+        },
+        {
+            "question": "What is the chemical symbol for potassium?",
+            "answer": "K"
+        },
+        {
+            "question": "If an investment grows from $1000 to $1210 in two years with compound interest, what is the annual interest rate?",
+            "answer": "10%"
+        },
+        {
+            "question": "Who wrote 'Frankenstein'?",
+            "answer": "Mary Shelley"
+        },
+        {
+            "question": "Which collection of stories includes titles like 'The Tortoise and the Hare'?",
+            "answer": "Aesop's Fables"
+        },
+        {
+            "question": "Which European explorer is credited with the first circumnavigation of the Earth, although he died during the voyage?",
+            "answer": "Ferdinand Magellan"
+        },
+        {
+            "question": "What was the name of the ancient Roman legal code displayed in the Forum, establishing basic civil rights?",
+            "answer": "Twelve Tables"
+        },
+        {
+            "question": "What does HTTP stand for in web addresses?",
+            "answer": "Hypertext Transfer Protocol"
+        },
+        {
+            "question": "Which Norwegian artist is known for his iconic painting 'The Scream'?",
+            "answer": "Edvard Munch"
+        },
+        {
+            "question": "What is the name of the desert that covers much of southern Africa?",
+            "answer": "Kalahari Desert"
+        },
+        {
+            "question": "Which critically acclaimed video game series, set in the aftermath of a global pandemic that turns humans into zombie-like creatures, follows a smuggler tasked with escorting a young girl across the ravaged United States?",
+            "answer": "The Last of Us"
+        }
     ]
 }
